@@ -20,7 +20,7 @@ Padrão:
 
 Crie um Worker chamado:
 
-    nuli-redirect-prod
+    nooli-redirect-prod
 
 Ele deve:
 
@@ -36,7 +36,7 @@ Ele deve:
 
 Crie:
 
-    nuli-redirects-prod
+    nooli-redirects-prod
 
 Binding no Worker:
 
