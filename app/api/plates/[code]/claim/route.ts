@@ -1,16 +1,18 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createSupabaseAdminClient } from "../../../../../lib/supabase/admin";
-import { normalizeDestinationUrl } from "../../../../../lib/urls";
+import { normalizeGoogleReviewDestination } from "../../../../../lib/google-review";
 
 const schema = z.object({
-  type: z.enum(["google","whatsapp","instagram","url"]),
   destination: z.string().min(3).max(2000),
   businessName: z.string().min(2).max(120),
   email: z.string().email()
 });
 
-export async function POST(request: Request, context: { params: Promise<{ code: string }> }) {
+export async function POST(
+  request: Request,
+  context: { params: Promise<{ code: string }> }
+) {
   const { code } = await context.params;
   const publicCode = code.toUpperCase().replace(/[^A-Z0-9]/g, "");
   const parsed = schema.safeParse(await request.json().catch(() => null));
@@ -20,20 +22,17 @@ export async function POST(request: Request, context: { params: Promise<{ code: 
   }
 
   const supabase = createSupabaseAdminClient();
-  if (!supabase) {
-    return NextResponse.json({ error: "Ambiente ainda não está conectado ao Supabase." }, { status: 503 });
-  }
 
-  let destinationUrl: string;
-  try {
-    destinationUrl = normalizeDestinationUrl(parsed.data.destination);
-  } catch {
-    return NextResponse.json({ error: "Informe um link válido." }, { status: 400 });
+  if (!supabase) {
+    return NextResponse.json(
+      { error: "Ambiente ainda não está conectado ao Supabase." },
+      { status: 503 }
+    );
   }
 
   const { data: plate, error: plateError } = await supabase
     .from("plates")
-    .select("id,status,organization_id")
+    .select("id,status,organization_id,product_type")
     .eq("public_code", publicCode)
     .maybeSingle();
 
@@ -41,8 +40,25 @@ export async function POST(request: Request, context: { params: Promise<{ code: 
     return NextResponse.json({ error: "Placa não encontrada." }, { status: 404 });
   }
 
+  if (plate.product_type !== "google_review") {
+    return NextResponse.json(
+      { error: "Este produto usa outro fluxo de configuração." },
+      { status: 409 }
+    );
+  }
+
   if (plate.organization_id || plate.status === "activated") {
     return NextResponse.json({ error: "Essa placa já foi configurada." }, { status: 409 });
+  }
+
+  let destinationUrl: string;
+  try {
+    destinationUrl = normalizeGoogleReviewDestination(parsed.data.destination);
+  } catch {
+    return NextResponse.json(
+      { error: "Cole um link de avaliação do Google ou um Place ID válido." },
+      { status: 400 }
+    );
   }
 
   await supabase
@@ -58,7 +74,7 @@ export async function POST(request: Request, context: { params: Promise<{ code: 
       plate_id: plate.id,
       email: parsed.data.email.toLowerCase(),
       business_name: parsed.data.businessName,
-      destination_type: parsed.data.type,
+      destination_type: "google_review",
       destination_url: destinationUrl,
       expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString()
     })
@@ -66,10 +82,16 @@ export async function POST(request: Request, context: { params: Promise<{ code: 
     .single();
 
   if (claimError || !claim) {
-    return NextResponse.json({ error: "Já existe uma configuração pendente para esta placa." }, { status: 409 });
+    return NextResponse.json(
+      { error: "Já existe uma configuração pendente para esta placa." },
+      { status: 409 }
+    );
   }
 
-  await supabase.from("plates").update({ status: "claiming" }).eq("id", plate.id);
+  await supabase
+    .from("plates")
+    .update({ status: "claiming" })
+    .eq("id", plate.id);
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? new URL(request.url).origin;
   const next = "/claim/complete?claim=" + claim.id;
@@ -81,7 +103,10 @@ export async function POST(request: Request, context: { params: Promise<{ code: 
   });
 
   if (otpError) {
-    return NextResponse.json({ error: "Não foi possível enviar a confirmação." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Não foi possível enviar a confirmação." },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ ok: true });
