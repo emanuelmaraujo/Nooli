@@ -1,12 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, Link2, MessageCircle, Nfc, QrCode, RefreshCw, Sparkles, Zap } from "lucide-react";
+import { ArrowRight, BarChart3, MessageCircle, Nfc, QrCode, RefreshCw, Sparkles, Star, Zap } from "lucide-react";
 
 const features = [
-  { icon: RefreshCw, title: "Mude o destino, não a placa", description: "QR e NFC apontam para a Nooli. Você troca Google, WhatsApp, Instagram ou qualquer URL pelo painel." },
+  { icon: RefreshCw, title: "Seu link pode mudar", description: "A placa continua a mesma. Se o link de avaliação do Google mudar, você atualiza pelo painel." },
   { icon: Zap, title: "Abre em milissegundos", description: "O redirecionamento roda no edge, fora do painel e do banco principal." },
-  { icon: BarChart3, title: "Veja o que acontece", description: "Acompanhe acessos e uso de cada placa sem sobrecarregar a aplicação." }
+  { icon: BarChart3, title: "Acompanhe os acessos", description: "Veja o uso da sua placa e evolua a experiência sem trocar o produto físico." }
 ];
 
 export function LandingExperience() {
@@ -30,14 +30,14 @@ export function LandingExperience() {
         <section className="hero">
           <div className="site-shell hero-grid">
             <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-              <div className="eyebrow"><span className="eyebrow-dot" /> conexão física. destino digital.</div>
-              <h1>Um toque.<br /><span className="gradient-word">Qualquer destino.</span></h1>
-              <p className="hero-copy">Nooli transforma uma placa física em um ponto de conexão vivo. Aproxime o celular ou escaneie. Configure uma vez. Mude o destino quando quiser.</p>
+              <div className="eyebrow"><span className="eyebrow-dot" /> nooli review · google avaliações</div>
+              <h1>Um toque.<br /><span className="gradient-word">Uma avaliação.</span></h1>
+              <p className="hero-copy">Aproxime o celular ou escaneie o QR Code e leve o cliente direto para a avaliação do seu negócio no Google. Configure uma vez e deixe a Nooli cuidar do caminho.</p>
               <div className="hero-actions">
                 <a className="primary-button" href="#como-funciona">Ver como funciona <ArrowRight size={18} /></a>
                 <a className="secondary-button" href="#contato">Falar com a Nooli <MessageCircle size={18} /></a>
               </div>
-              <div className="micro-proof">QR + NFC · sem aplicativo · destino editável</div>
+              <div className="micro-proof">QR + NFC · sem aplicativo · Google direto</div>
             </motion.div>
 
             <motion.div className="device-stage" initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, delay: 0.1 }}>
@@ -53,7 +53,7 @@ export function LandingExperience() {
                 </div>
               </motion.div>
               <div className="float-card top"><div className="float-label">status</div><div className="float-value"><span className="live-dot" /> online agora</div></div>
-              <div className="float-card bottom"><div className="float-label">destino</div><div className="float-value"><Link2 size={16} /> editável</div></div>
+              <div className="float-card bottom"><div className="float-label">destino</div><div className="float-value"><Star size={16} /> Google</div></div>
             </motion.div>
           </div>
         </section>
@@ -62,8 +62,8 @@ export function LandingExperience() {
           <div className="site-shell">
             <div className="section-heading">
               <div className="eyebrow"><Sparkles size={14} /> pensado para continuar útil</div>
-              <h2>A placa fica. O destino evolui.</h2>
-              <p>O que está impresso não precisa mudar quando sua campanha, perfil, WhatsApp ou página mudar.</p>
+              <h2>A placa fica. Seu link continua sob controle.</h2>
+              <p>O QR e o NFC apontam para a Nooli. Você não precisa reimprimir a placa para manter o direcionamento do Google atualizado.</p>
             </div>
             <div className="feature-grid">
               {features.map(({ icon: Icon, title, description }, index) => (
@@ -95,15 +95,15 @@ export function LandingExperience() {
           <div className="site-shell">
             <div className="cta-panel glass"><div className="cta-content">
               <div className="eyebrow" style={{ margin: "0 auto 20px" }}><QrCode size={14} /> nooli</div>
-              <h2>Uma pequena placa. Uma conexão que continua mudando.</h2>
-              <p>Precisa configurar, trocar o destino ou falar com a gente? O suporte fica sempre acessível pela Nooli.</p>
+              <h2>Menos passos entre seu cliente e uma avaliação.</h2>
+              <p>Precisa configurar a placa, atualizar o link do Google ou falar com a gente? O suporte fica sempre acessível pela Nooli.</p>
               <a className="primary-button" href={support}>Falar com a Nooli <MessageCircle size={18} /></a>
             </div></div>
           </div>
         </section>
       </main>
 
-      <footer className="footer"><div className="site-shell footer-row"><span>© {new Date().getFullYear()} Nooli</span><span>QR · NFC · destinos dinâmicos</span></div></footer>
+      <footer className="footer"><div className="site-shell footer-row"><span>© {new Date().getFullYear()} Nooli</span><span>QR · NFC · Google Reviews</span></div></footer>
       <a className="support-fab" href={support}><MessageCircle size={19} /><span>Suporte</span></a>
     </>
   );
