@@ -1,8 +1,8 @@
-# Nuli
+# Nooli
 
 Plataforma para placas físicas com QR Code + NFC e redirecionamento dinâmico.
 
-O endereço gravado fisicamente no QR e no NFC nunca aponta direto para Google, WhatsApp, Instagram etc. Ele aponta para um endereço curto da Nuli. O destino pode ser alterado depois sem reimprimir a placa.
+O endereço gravado fisicamente no QR e no NFC nunca aponta direto para Google, WhatsApp, Instagram etc. Ele aponta para um endereço curto da Nooli. O destino pode ser alterado depois sem reimprimir a placa.
 
 ## Arquitetura
 
