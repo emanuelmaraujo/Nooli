@@ -1,44 +1,60 @@
 # Primeiro acesso e ativação
 
-## Decisão do MVP
+## Nooli Review — produto inicial
 
-A Nooli não exige uma senha impressa na placa.
+Por enquanto a Nooli será vendida somente como placa de avaliações do Google.
 
-No primeiro acesso de uma placa ainda não ativada:
+Não existe escolha de WhatsApp, Instagram ou link genérico na ativação desse produto.
 
-1. QR/NFC abre `go.DOMINIO/CODIGO`.
-2. O Worker vê que a placa está `unclaimed`.
-3. Redireciona para `app.DOMINIO/activate/CODIGO`.
-4. O dono escolhe o destino e informa o nome do negócio + e-mail.
-5. A Nooli envia um magic link para esse e-mail.
-6. Ao abrir o link, a placa é vinculada à conta.
-7. A partir daí, os próximos QR/NFC vão direto ao destino.
+Fluxo:
 
-Isso evita senha para memorizar e mantém um passo de verificação de contato.
+1. QR/NFC abre `go.DOMINIO/CODIGO`;
+2. o Worker identifica que a placa ainda não foi ativada;
+3. encaminha para `app.DOMINIO/activate/google/CODIGO`;
+4. o dono cola o link de avaliação do Google ou informa um Place ID;
+5. informa nome do negócio e e-mail;
+6. a Nooli envia um magic link;
+7. o dono confirma o e-mail;
+8. a placa passa para `activated`;
+9. próximos acessos vão direto ao Google.
 
-## Risco conhecido
+## Sem senha no primeiro lote
 
-Sem um código secreto físico, a primeira pessoa que tiver acesso à placa pode tentar iniciar o cadastro.
+A Nooli Review não exige uma senha física.
 
-Mitigações do MVP:
+Isso reduz atrito, mas cria um risco: alguém com acesso à placa antes do comprador pode iniciar uma configuração.
 
-- confirmação obrigatória por e-mail;
-- claim expira em 30 minutos;
-- apenas um claim aberto por placa;
-- suporte/admin pode recuperar uma placa;
-- recomenda-se manter a placa embalada até a instalação.
+Mitigações:
 
-Para lotes maiores ou canais de revenda, existe uma evolução sem exigir digitação de senha: um QR de ativação de uso único dentro da embalagem.
+- e-mail obrigatório;
+- claim expira;
+- um claim aberto por placa;
+- recuperação administrativa;
+- manter a placa embalada até a instalação.
+
+Para canais de revenda, a evolução recomendada é um QR/código de ativação de uso único dentro da embalagem, sem transformar o QR público em senha.
+
+## Mais de uma tela de ativação
+
+O roteamento é definido por `product_type`.
+
+Exemplo:
+
+    google_review → /activate/google/CODIGO
+    direct_link   → /activate/link/CODIGO
+    nooli_page    → /activate/page/CODIGO
+
+Isso permite criar produtos diferentes no futuro sem misturar as experiências.
 
 ## Contato com a Nooli
 
-O produto físico deve acompanhar um cartão/panfleto pequeno com:
+Cada produto físico deve acompanhar um cartão simples com:
 
-- logo Nooli;
-- texto "Precisa configurar ou trocar o destino?";
-- QR para o site/suporte;
+- marca Nooli;
+- instrução de primeiro uso;
+- QR de suporte;
 - WhatsApp;
 - e-mail;
-- endereço `app.DOMINIO`.
+- endereço do painel.
 
-Além disso, o site mantém um botão de suporte persistente e uma página `/support`.
+O site também mantém `/support` e botão persistente de contato.
