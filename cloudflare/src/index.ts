@@ -7,6 +7,7 @@ interface Env {
 type RedirectRecord = {
   state: "unclaimed" | "active" | "suspended" | "retired";
   url?: string;
+  productType?: string;
   version?: number;
 };
 
@@ -27,7 +28,7 @@ export default {
 
     const raw = await env.REDIRECTS.get("r:" + code);
     if (!raw) {
-      return Response.redirect(env.APP_BASE_URL + "/support?code=" + encodeURIComponent(code), 302);
+      return Response.redirect(env.APP_BASE_URL + "/activate/" + code, 302);
     }
 
     let record: RedirectRecord;
