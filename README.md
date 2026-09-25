@@ -72,6 +72,7 @@ Antes de imprimir o primeiro lote físico, o domínio precisa estar comprado, co
 - docs/CLOUDFLARE.md — tudo que precisa ser feito manualmente no Cloudflare.
 - docs/PRODUCTION.md — geração de lotes, QR/NFC e produção física.
 - docs/SECURITY.md — ativação e segurança.
+- docs/ONBOARDING.md — primeiro acesso sem senha e suporte.
 - supabase/migrations/0001_initial_schema.sql — modelo inicial do banco.
 
 ## Estado
@@ -82,9 +83,26 @@ Antes de imprimir o primeiro lote físico, o domínio precisa estar comprado, co
 - [x] Procedimento Cloudflare documentado
 - [ ] Domínio definitivo comprado
 - [ ] Cloudflare configurado
-- [ ] Migração aplicada no Supabase
-- [ ] Vercel conectado e configurado
+- [ ] Migração aplicada no Supabase (conector atual ainda não enxerga o projeto)
+- [ ] Vercel conectado e configurado (conector atual ainda não enxerga o projeto)
 - [ ] Worker publicado
-- [ ] Gerador de lote finalizado
-- [ ] Fluxo de ativação implementado
+- [x] Gerador de lote inicial implementado
+- [x] Fluxo inicial de ativação implementado
 - [ ] Primeiro lote piloto validado
+
+
+## MVP atual
+
+Já existe no branch de desenvolvimento:
+
+- landing page responsiva;
+- login sem senha por magic link;
+- fluxo de primeiro acesso em /activate/[code];
+- claim da placa com confirmação de e-mail;
+- dashboard inicial;
+- suporte;
+- rota de redirecionamento de fallback;
+- Worker Cloudflare base;
+- schema Supabase para organizações, lotes, placas e claims.
+
+A decisão atual é não exigir senha física no primeiro lote. O dono confirma a configuração por e-mail. O risco e as evoluções possíveis estão documentados em docs/ONBOARDING.md.
