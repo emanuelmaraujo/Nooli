@@ -46,11 +46,10 @@ create table public.plates (
 create table public.plate_claims (
   id uuid primary key default gen_random_uuid(),
   plate_id uuid not null references public.plates(id) on delete cascade,
-  email citext not null,
+  email text not null,
   business_name text not null,
   destination_type text not null check (destination_type in ('google','whatsapp','instagram','url')),
   destination_url text not null,
-  token_hash text not null unique,
   expires_at timestamptz not null,
   consumed_at timestamptz,
   created_at timestamptz not null default now()
