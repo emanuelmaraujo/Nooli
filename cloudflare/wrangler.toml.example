@@ -1,0 +1,14 @@
+name = "nooli-redirect-prod"
+main = "src/index.ts"
+compatibility_date = "2026-09-25"
+
+[vars]
+APP_BASE_URL = "https://app.example.com"
+
+[[kv_namespaces]]
+binding = "REDIRECTS"
+id = "COLOQUE_O_ID_DO_KV"
+
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "nooli_redirects"
