@@ -1,8 +1,8 @@
-# Arquitetura Nuli
+# Arquitetura Nooli
 
 ## Objetivo
 
-A Nuli usa uma URL própria e permanente no QR Code e no NFC. O destino final pode ser trocado sem reimprimir a placa.
+A Nooli usa uma URL própria e permanente no QR Code e no NFC. O destino final pode ser trocado sem reimprimir a placa.
 
 ## Hot path
 
