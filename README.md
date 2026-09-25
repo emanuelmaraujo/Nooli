@@ -2,18 +2,15 @@
 
 Plataforma para placas físicas com QR Code + NFC e redirecionamento dinâmico.
 
-O endereço gravado fisicamente no QR e no NFC nunca aponta direto para Google, WhatsApp, Instagram etc. Ele aponta para um endereço curto da Nooli. O destino pode ser alterado depois sem reimprimir a placa.
+A URL gravada fisicamente nunca aponta direto para o destino final. Ela aponta para a Nooli, permitindo ativação, troca de destino e evolução do produto sem reimprimir a placa.
 
-## Arquitetura
+## Produto atual
 
-- Cloudflare Worker: recebe cada leitura e responde com redirecionamento HTTP.
-- Cloudflare KV: guarda o mapa código público → destino para leitura rápida.
-- Cloudflare Analytics Engine: métricas de acesso sem gravar cada clique no banco principal.
-- Supabase: autenticação, clientes, organizações, lotes, placas, ativação e histórico.
-- Vercel + Next.js: site, painel e APIs administrativas.
-- GitHub: código e documentação.
+### Nooli Review
 
-Fluxo público:
+O primeiro produto comercial é exclusivamente para avaliações do Google.
+
+Fluxo:
 
     QR / NFC
        ↓
@@ -21,13 +18,40 @@ Fluxo público:
        ↓
     Cloudflare Worker
        ↓
-    Cloudflare KV
-       ↓
-    HTTP 302
-       ↓
-    Destino configurado
+    placa nova?
+       ├─ sim → /activate/google/CODIGO
+       └─ não → Google Review direto
 
-O Supabase e a Vercel não participam de cada redirecionamento.
+Na primeira configuração o cliente informa:
+
+- link de avaliação do Google ou Place ID;
+- nome do negócio;
+- e-mail responsável.
+
+A confirmação ocorre por magic link. Não existe senha física no MVP.
+
+## Produtos futuros
+
+A arquitetura já diferencia produtos por `product_type`.
+
+- `google_review` → Nooli Review — ativo agora;
+- `direct_link` → Nooli Link — futuro;
+- `nooli_page` → Nooli Page — futuro.
+
+A Nooli Page será uma página própria e moderna do negócio, com múltiplos blocos e destinos, em vez de uma simples lista de links.
+
+Veja `docs/PRODUCTS.md`.
+
+## Arquitetura
+
+- Cloudflare Worker: recebe cada leitura e responde com redirecionamento HTTP.
+- Cloudflare KV: guarda o mapa código público → estado/destino.
+- Cloudflare Analytics Engine: métricas sem inserir cada clique no banco principal.
+- Supabase: autenticação, clientes, organizações, produtos, lotes, placas, ativação e histórico.
+- Vercel + Next.js: site, painel, onboarding e APIs administrativas.
+- GitHub: código e documentação.
+
+O Supabase e a Vercel não participam de cada redirect normal.
 
 ## Escala alvo
 
@@ -39,70 +63,71 @@ Cenário de referência:
     = 750.000 redirects/dia
     ≈ 22,5 milhões/mês
 
-## Identidade de cada placa
+## Identidade física
 
-Cada placa recebe dois valores diferentes:
-
-- public_code: público, aleatório, impresso no QR e gravado no NFC.
-- activation_secret: secreto, separado, usado para reivindicar a placa.
-
-Nunca usar o mesmo valor como código público e senha.
+Cada placa possui um `public_code` aleatório.
 
 Exemplo:
 
     public_code: 7KQ9X2M4PZ
     redirect_url: https://go.DOMINIO/7KQ9X2M4PZ
-    activation_secret: Q7KM-9P2X-T4ZR-6W8N
 
-QR e NFC da mesma placa recebem exatamente a mesma redirect_url.
+QR e NFC da mesma placa recebem exatamente a mesma URL.
+
+O código é público e nunca é usado como senha.
+
+## Geração em massa
+
+Exemplo para o produto atual:
+
+    npm run generate:batch -- --count=1000 --batch=lote-001 --product=google_review --base=https://go.DOMINIO
+
+Saída:
+
+    exports/lote-001/
+    ├── factory.csv
+    ├── inventory.csv
+    └── qr/
+        └── ...
+
+O `factory.csv` contém o necessário para produção e correspondência QR/NFC.
 
 ## Domínios
 
-Nenhum domínio definitivo deve ficar hardcoded. Estrutura planejada:
+Estrutura planejada:
 
-- DOMINIO → site público
-- app.DOMINIO → painel na Vercel
-- go.DOMINIO → Worker do Cloudflare
+- `DOMINIO` → site público;
+- `app.DOMINIO` → painel e configuração na Vercel;
+- `go.DOMINIO` → redirect no Cloudflare.
 
-Antes de imprimir o primeiro lote físico, o domínio precisa estar comprado, configurado e testado.
+O domínio definitivo precisa estar configurado e validado antes de gerar o lote físico final.
 
 ## Documentação
 
-- docs/ARCHITECTURE.md — arquitetura e decisões técnicas.
-- docs/CLOUDFLARE.md — tudo que precisa ser feito manualmente no Cloudflare.
-- docs/PRODUCTION.md — geração de lotes, QR/NFC e produção física.
-- docs/SECURITY.md — ativação e segurança.
-- docs/ONBOARDING.md — primeiro acesso sem senha e suporte.
-- supabase/migrations/0001_initial_schema.sql — modelo inicial do banco.
+- `docs/ARCHITECTURE.md` — arquitetura e escala.
+- `docs/PRODUCTS.md` — Nooli Review, Link e Page.
+- `docs/CLOUDFLARE.md` — configuração manual do Cloudflare.
+- `docs/PRODUCTION.md` — QR/NFC e produção física.
+- `docs/SECURITY.md` — segurança e primeiro claim.
+- `docs/ONBOARDING.md` — fluxo de primeiro acesso.
+- `supabase/migrations/0001_initial_schema.sql` — banco inicial.
 
 ## Estado
 
 - [x] Arquitetura definida
-- [x] Modelo de ativação definido
-- [x] Estratégia de escala definida
-- [x] Procedimento Cloudflare documentado
+- [x] Tipos de produto modelados
+- [x] Nooli Review definido como produto inicial
+- [x] Landing page inicial
+- [x] Login passwordless
+- [x] Ativação Google dedicada
+- [x] Claim por e-mail
+- [x] Dashboard inicial
+- [x] Worker Cloudflare base
+- [x] Sincronização de placa ativada para KV implementada
+- [x] Gerador de lote com product_type
+- [x] Documentação Cloudflare
 - [ ] Domínio definitivo comprado
-- [ ] Cloudflare configurado
-- [ ] Migração aplicada no Supabase (conector atual ainda não enxerga o projeto)
-- [ ] Vercel conectado e configurado (conector atual ainda não enxerga o projeto)
+- [ ] Projeto Supabase visível no conector e migration aplicada
+- [ ] Projeto Vercel visível no conector e variáveis configuradas
 - [ ] Worker publicado
-- [x] Gerador de lote inicial implementado
-- [x] Fluxo inicial de ativação implementado
-- [ ] Primeiro lote piloto validado
-
-
-## MVP atual
-
-Já existe no branch de desenvolvimento:
-
-- landing page responsiva;
-- login sem senha por magic link;
-- fluxo de primeiro acesso em /activate/[code];
-- claim da placa com confirmação de e-mail;
-- dashboard inicial;
-- suporte;
-- rota de redirecionamento de fallback;
-- Worker Cloudflare base;
-- schema Supabase para organizações, lotes, placas e claims.
-
-A decisão atual é não exigir senha física no primeiro lote. O dono confirma a configuração por e-mail. O risco e as evoluções possíveis estão documentados em docs/ONBOARDING.md.
+- [ ] Primeiro lote piloto físico validado
