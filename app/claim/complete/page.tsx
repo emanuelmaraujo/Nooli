@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "../../../lib/supabase/server";
 import { createSupabaseAdminClient } from "../../../lib/supabase/admin";
 import { Logo } from "../../../components/logo";
+import { putRedirectRecord } from "../../../lib/cloudflare-kv";
 
 type Props = {
   searchParams: Promise<{ claim?: string }>;
@@ -88,6 +89,12 @@ export default async function ClaimCompletePage({ searchParams }: Props) {
     role: "owner"
   });
 
+  const { data: plate } = await admin
+    .from("plates")
+    .select("public_code,product_type")
+    .eq("id", claim.plate_id)
+    .single();
+
   await admin.from("plates").update({
     organization_id: organization.id,
     destination_type: claim.destination_type,
@@ -98,7 +105,30 @@ export default async function ClaimCompletePage({ searchParams }: Props) {
     kv_sync_status: "pending"
   }).eq("id", claim.plate_id);
 
-  await admin.from("plate_claims").update({ consumed_at: new Date().toISOString() }).eq("id", claim.id);
+  if (plate) {
+    try {
+      await putRedirectRecord(plate.public_code, {
+        state: "active",
+        url: claim.destination_url,
+        productType: plate.product_type,
+        version: 1
+      });
+
+      await admin.from("plates").update({
+        kv_sync_status: "synced",
+        kv_synced_at: new Date().toISOString()
+      }).eq("id", claim.plate_id);
+    } catch {
+      await admin.from("plates").update({
+        kv_sync_status: "error"
+      }).eq("id", claim.plate_id);
+    }
+  }
+
+  await admin
+    .from("plate_claims")
+    .update({ consumed_at: new Date().toISOString() })
+    .eq("id", claim.id);
 
   redirect("/dashboard?activated=1");
 }
