@@ -66,7 +66,13 @@ export default async function ClaimCompletePage({ searchParams }: Props) {
     );
   }
 
-  const slugBase = claim.business_name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 44) || "empresa";
+  const slugBase = claim.business_name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 44) || "empresa";
   const slug = slugBase + "-" + claim.id.slice(0, 6);
 
   const { data: organization, error: orgError } = await admin
@@ -78,7 +84,13 @@ export default async function ClaimCompletePage({ searchParams }: Props) {
   if (orgError || !organization) {
     return (
       <main className="auth-shell">
-        <div className="auth-container"><Logo /><section className="auth-card glass"><h1>Não foi possível concluir.</h1><p>Tente novamente ou fale com o suporte.</p></section></div>
+        <div className="auth-container">
+          <Logo />
+          <section className="auth-card glass">
+            <h1>Não foi possível concluir.</h1>
+            <p>Tente novamente ou fale com o suporte.</p>
+          </section>
+        </div>
       </main>
     );
   }
@@ -91,37 +103,60 @@ export default async function ClaimCompletePage({ searchParams }: Props) {
 
   const { data: plate } = await admin
     .from("plates")
-    .select("public_code,product_type")
+    .select("id,public_code,product_type")
     .eq("id", claim.plate_id)
     .single();
 
-  await admin.from("plates").update({
-    organization_id: organization.id,
-    destination_type: claim.destination_type,
-    destination_url: claim.destination_url,
-    status: "activated",
-    activated_at: new Date().toISOString(),
-    claimed_by: user.id,
-    kv_sync_status: "pending"
-  }).eq("id", claim.plate_id);
+  await admin
+    .from("plates")
+    .update({
+      organization_id: organization.id,
+      destination_type: claim.destination_type,
+      destination_url: claim.destination_url,
+      status: "activated",
+      activated_at: new Date().toISOString(),
+      claimed_by: user.id,
+      kv_sync_status: "pending"
+    })
+    .eq("id", claim.plate_id);
 
   if (plate) {
     try {
-      await putRedirectRecord(plate.public_code, {
-        state: "active",
-        url: claim.destination_url,
-        productType: plate.product_type,
-        version: 1
-      });
+      const { data: endpoints } = await admin
+        .from("plate_endpoints")
+        .select("public_code")
+        .eq("plate_id", plate.id)
+        .in("status", ["available", "paired"]);
 
-      await admin.from("plates").update({
-        kv_sync_status: "synced",
-        kv_synced_at: new Date().toISOString()
-      }).eq("id", claim.plate_id);
+      const codes = new Set<string>([
+        plate.public_code,
+        ...(endpoints ?? []).map((endpoint) => endpoint.public_code)
+      ]);
+
+      await Promise.all(
+        [...codes].map((publicCode) =>
+          putRedirectRecord(publicCode, {
+            state: "active",
+            url: claim.destination_url,
+            productType: plate.product_type,
+            canonicalCode: plate.public_code,
+            version: 2
+          })
+        )
+      );
+
+      await admin
+        .from("plates")
+        .update({
+          kv_sync_status: "synced",
+          kv_synced_at: new Date().toISOString()
+        })
+        .eq("id", claim.plate_id);
     } catch {
-      await admin.from("plates").update({
-        kv_sync_status: "error"
-      }).eq("id", claim.plate_id);
+      await admin
+        .from("plates")
+        .update({ kv_sync_status: "error" })
+        .eq("id", claim.plate_id);
     }
   }
 
