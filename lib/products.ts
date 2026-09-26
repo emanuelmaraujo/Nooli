@@ -1,0 +1,28 @@
+export type ProductType = "google_review" | "direct_link" | "nooli_page";
+
+export const productCatalog: Record<ProductType, {
+  name: string;
+  activationPath: string;
+  enabled: boolean;
+}> = {
+  google_review: {
+    name: "Nooli Review",
+    activationPath: "google",
+    enabled: true
+  },
+  direct_link: {
+    name: "Nooli Link",
+    activationPath: "link",
+    enabled: false
+  },
+  nooli_page: {
+    name: "Nooli Page",
+    activationPath: "page",
+    enabled: false
+  }
+};
+
+export function activationRoute(productType: ProductType, code: string) {
+  const product = productCatalog[productType] ?? productCatalog.google_review;
+  return "/activate/" + product.activationPath + "/" + code;
+}

@@ -13,6 +13,9 @@ const args = Object.fromEntries(
 const count = Number(args.count ?? 20);
 const batch = String(args.batch ?? "pilot");
 const base = String(args.base ?? "").replace(/\/$/, "");
+const productType = String(args.product ?? "google_review");
+
+const allowedProducts = new Set(["google_review", "direct_link", "nooli_page"]);
 
 if (!Number.isInteger(count) || count < 1 || count > 100000) {
   throw new Error("--count deve ser um inteiro entre 1 e 100000");
@@ -20,6 +23,10 @@ if (!Number.isInteger(count) || count < 1 || count > 100000) {
 
 if (!/^https:\/\//i.test(base)) {
   throw new Error("--base deve ser uma URL HTTPS");
+}
+
+if (!allowedProducts.has(productType)) {
+  throw new Error("--product inválido");
 }
 
 const alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -30,10 +37,6 @@ function randomCode(length) {
     out += alphabet[crypto.randomInt(0, alphabet.length)];
   }
   return out;
-}
-
-function activationSecret() {
-  return [4, 4, 4, 4].map((len) => randomCode(len)).join("-");
 }
 
 function csvCell(value) {
@@ -51,8 +54,21 @@ const qrDir = path.join(root, "qr");
 await fs.mkdir(qrDir, { recursive: true });
 
 const used = new Set();
-const factoryRows = [["sequence", "public_code", "redirect_url", "nfc_url", "qr_file"]];
-const internalRows = [["sequence", "public_code", "redirect_url", "activation_secret"]];
+const factoryRows = [[
+  "sequence",
+  "public_code",
+  "product_type",
+  "redirect_url",
+  "nfc_url",
+  "qr_file"
+]];
+const inventoryRows = [[
+  "sequence",
+  "public_code",
+  "product_type",
+  "redirect_url",
+  "status"
+]];
 
 for (let sequence = 1; sequence <= count; sequence++) {
   let publicCode;
@@ -62,7 +78,6 @@ for (let sequence = 1; sequence <= count; sequence++) {
   used.add(publicCode);
 
   const redirectUrl = `${base}/${publicCode}`;
-  const secret = activationSecret();
   const number = String(sequence).padStart(6, "0");
   const file = `${number}_${publicCode}.svg`;
 
@@ -74,13 +89,28 @@ for (let sequence = 1; sequence <= count; sequence++) {
   });
 
   await fs.writeFile(path.join(qrDir, file), svg, "utf8");
-  factoryRows.push([number, publicCode, redirectUrl, redirectUrl, `qr/${file}`]);
-  internalRows.push([number, publicCode, redirectUrl, secret]);
+
+  factoryRows.push([
+    number,
+    publicCode,
+    productType,
+    redirectUrl,
+    redirectUrl,
+    `qr/${file}`
+  ]);
+
+  inventoryRows.push([
+    number,
+    publicCode,
+    productType,
+    redirectUrl,
+    "manufactured"
+  ]);
 }
 
 await fs.writeFile(path.join(root, "factory.csv"), toCsv(factoryRows), "utf8");
-await fs.writeFile(path.join(root, "internal.csv"), toCsv(internalRows), "utf8");
+await fs.writeFile(path.join(root, "inventory.csv"), toCsv(inventoryRows), "utf8");
 
 console.log(`Lote ${batch} criado: ${count} placas em ${root}`);
+console.log(`Produto: ${productType}`);
 console.log("Envie factory.csv + pasta qr/ para a gráfica.");
-console.log("NÃO envie internal.csv para a gráfica.");
