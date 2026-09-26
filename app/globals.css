@@ -1598,3 +1598,43 @@ textarea:focus-visible {
     height: 46px;
   }
 }
+
+
+.ecosystem-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 28px;
+}
+
+.ecosystem-chip {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  background: var(--soft-panel);
+  font-size: .88rem;
+  font-weight: 700;
+}
+
+.ecosystem-chip span {
+  color: var(--muted);
+  font-size: .7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.ecosystem-chip.active {
+  border-color: rgba(185,255,102,.26);
+  background: rgba(185,255,102,.08);
+}
+
+html[data-theme="light"] .ecosystem-chip.active {
+  border-color: rgba(93,143,40,.22);
+  background: rgba(143,213,62,.10);
+}
