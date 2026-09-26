@@ -131,3 +131,20 @@ O domínio definitivo precisa estar configurado e validado antes de gerar o lote
 - [ ] Projeto Vercel visível no conector e variáveis configuradas
 - [ ] Worker publicado
 - [ ] Primeiro lote piloto físico validado
+
+
+## Site comercial 2026
+
+A evolução do site está no branch `feat/pro-site-market-legal` e inclui:
+
+- tema claro/escuro com preferência persistente;
+- página `/solucoes` com ecossistema multiplataforma;
+- `/legal`, `/termos`, `/privacidade`, `/cookies`;
+- `/trocas-e-devolucoes`, `/acessibilidade`, `/faq`;
+- identificação comercial parametrizada por variáveis;
+- canal específico para privacidade/LGPD;
+- pesquisa de mercado consolidada em `docs/MARKET_RESEARCH.md`.
+
+Antes de habilitar checkout/venda direta, preencher razão social/nome empresarial,
+documento, endereço, suporte, preço, frete, prazos e revisar os documentos com
+assessoria jurídica/contábil adequada ao enquadramento da operação.
