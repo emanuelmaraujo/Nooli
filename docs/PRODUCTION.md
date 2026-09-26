@@ -1,57 +1,85 @@
-# Produção física
+# Produção física — Torvya
 
 ## Placa
 
-Especificação atual:
+Especificação de referência:
 
 - acrílico 12 × 12 cm;
 - 2 mm;
-- impressão variável com QR;
-- NFC NTAG213 aplicado depois;
-- dupla-face/EVA aplicado depois do NFC.
+- impressão variável com QR Code;
+- tag NFC NTAG213 aplicada depois;
+- dupla-face/EVA aplicada depois da tag.
 
 Montagem:
 
     acrílico
       ↓
-    NTAG213
+    tag NFC
       ↓
     EVA / dupla-face
       ↓
     liner
 
-## Regra principal
+## QR e NFC são independentes
 
-O QR e o NFC da mesma placa usam exatamente a mesma URL:
+Cada tecnologia possui seu próprio código público e sua própria URL:
 
-    https://go.DOMINIO/PUBLIC_CODE
+    QR  → https://go.DOMINIO/q/CODIGO_QR
+    NFC → https://go.DOMINIO/n/CODIGO_NFC
 
-## Ordem
+Não existe mais obrigação operacional de manter a tag NFC número 001 junto da placa número 001.
 
-1. comprar o domínio;
-2. configurar Cloudflare;
-3. gerar 20 peças piloto;
-4. testar QR + NFC;
-5. aprovar;
-6. gerar lote de 1.000+;
-7. enviar QR para a gráfica;
-8. receber as placas;
-9. aplicar os NFCs na mesma sequência;
-10. testar;
-11. aplicar dupla-face;
-12. embalar.
+A correspondência final é criada por leitura física na Torvya.
 
-## Correspondência
+## Geração
 
-Não usar UID do chip como identificador comercial.
+Exemplo:
 
-Use o public_code:
+    npm run generate:batch -- --count=1000 --batch=lote-001 --product=google_review --base=https://go.DOMINIO
 
-    placa 000001 ↔ public_code A...
-    placa 000002 ↔ public_code B...
+Saída:
+
+    exports/lote-001/
+    ├── factory.csv
+    ├── inventory.csv
+    ├── nfc-inventory.csv
+    └── qr/
+        └── ...
+
+### factory.csv
+
+Usado pela gráfica para impressão variável dos QR Codes.
+
+### nfc-inventory.csv
+
+Usado para gravação das tags NFC. Cada tag recebe um endereço `/n/CODIGO`.
+
+### inventory.csv
+
+Inventário de produção. A coluna de correspondência é apenas auxiliar; o vínculo real deve ser confirmado pelo fluxo de pareamento.
+
+## Ordem recomendada
+
+1. configurar domínio definitivo;
+2. publicar Worker;
+3. aplicar migrations;
+4. gerar lote piloto;
+5. importar/registrar endpoints QR e NFC;
+6. enviar QR para impressão;
+7. gravar tags NFC;
+8. montar uma placa;
+9. ler QR ou NFC;
+10. ler o outro;
+11. confirmar pareamento;
+12. testar ativação;
+13. testar os dois acessos após ativação;
+14. só então escalar o lote.
 
 ## Segurança de produção
 
-Não bloquear NFC como read-only antes de passar no QA.
-
-Depois de validado, o NFC pode ser bloqueado como somente leitura porque o destino muda no servidor, não no chip.
+- não usar UID do chip NFC como identificador comercial;
+- não colocar segredo no QR Code;
+- não tratar código público como senha;
+- validar códigos de estoque no backend;
+- não bloquear a tag como somente leitura antes do QA;
+- após o QA, a tag pode ser bloqueada porque o destino muda no servidor e não no chip.
