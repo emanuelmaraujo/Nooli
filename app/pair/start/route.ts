@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { pairPhysicalEndpoints, isValidEndpointCode, normalizeEndpointCode, type EndpointKind } from "../../../../lib/pairing";
+import { pairPhysicalEndpoints, isValidEndpointCode, normalizeEndpointCode, type EndpointKind } from "../../../lib/pairing";
 
 const COOKIE = "torvya_pair_first";
 const KINDS = new Set(["qr", "nfc"]);
