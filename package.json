@@ -1,5 +1,5 @@
 {
-  "name": "nooli",
+  "name": "torvya",
   "version": "0.2.0",
   "private": true,
   "type": "module",
@@ -7,12 +7,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "generate:batch": "node scripts/generate-batch.mjs"
+    "generate:batch": "node scripts/generate-batch.mjs",
+    "register:endpoints": "node scripts/register-batch-endpoints.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.57.0",
-    "framer-motion": "^12.23.12",
     "lucide-react": "^0.468.0",
     "next": "^15.5.0",
     "qrcode": "^1.5.4",

@@ -7,7 +7,7 @@ export default function AccessibilityPage() {
     <LegalPage
       eyebrow="acessibilidade"
       title="Uma experiência que precisa funcionar para mais pessoas."
-      description="A Nooli adota acessibilidade como requisito de produto, não como acabamento."
+      description="A Torvya adota acessibilidade como requisito de produto, não como acabamento."
     >
       <h2>Direção de desenvolvimento</h2>
       <ul>

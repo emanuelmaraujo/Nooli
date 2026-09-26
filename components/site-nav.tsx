@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
+import { Logo } from "./logo";
 
 export function SiteNav() {
   return (
@@ -8,16 +9,15 @@ export function SiteNav() {
       <a className="skip-link" href="#conteudo">
         Ir para o conteúdo
       </a>
+
       <nav className="navbar" aria-label="Navegação principal">
-        <Link className="brand" href="/">
-          <span className="brand-mark">n</span>
-          nooli
-        </Link>
+        <Logo />
 
         <div className="nav-links">
-          <Link href="/#produto">Nooli Review</Link>
-          <Link href="/solucoes">Ecossistema</Link>
-          <Link href="/#como-funciona">Como funciona</Link>
+          <Link href="/#produto">Produto</Link>
+          <Link href="/como-funciona">Como funciona</Link>
+          <Link href="/solucoes">Soluções</Link>
+          <Link href="/faq">Dúvidas</Link>
           <Link href="/support">Suporte</Link>
         </div>
 

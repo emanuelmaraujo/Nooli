@@ -1,60 +1,62 @@
-# Primeiro acesso e ativação
+# Primeiro acesso e ativação — Torvya
 
-## Nooli Review — produto inicial
+## Torvya Review
 
-Por enquanto a Nooli será vendida somente como placa de avaliações do Google.
+O produto inicial é focado em avaliações do Google.
 
-Não existe escolha de WhatsApp, Instagram ou link genérico na ativação desse produto.
+A experiência foi desenhada para ter o mínimo de campos possível no primeiro acesso.
 
-Fluxo:
+## Fluxo físico QR + NFC
 
-1. QR/NFC abre `go.DOMINIO/CODIGO`;
-2. o Worker identifica que a placa ainda não foi ativada;
-3. encaminha para `app.DOMINIO/activate/google/CODIGO`;
-4. o dono cola o link de avaliação do Google ou informa um Place ID;
-5. informa nome do negócio e e-mail;
-6. a Nooli envia um magic link;
-7. o dono confirma o e-mail;
-8. a placa passa para `activated`;
-9. próximos acessos vão direto ao Google.
+QR Code e NFC possuem códigos e URLs diferentes:
 
-## Sem senha no primeiro lote
+    QR  → https://go.DOMINIO/q/CODIGO_QR
+    NFC → https://go.DOMINIO/n/CODIGO_NFC
 
-A Nooli Review não exige uma senha física.
+Eles não precisam ser separados previamente em pares durante a produção.
 
-Isso reduz atrito, mas cria um risco: alguém com acesso à placa antes do comprador pode iniciar uma configuração.
+### Pareamento
 
-Mitigações:
+1. leia o QR ou a tag NFC;
+2. a Torvya guarda o primeiro item por até 15 minutos;
+3. leia o item do outro tipo;
+4. o backend valida se ambos pertencem ao estoque Torvya;
+5. o NFC é associado à placa correspondente ao QR;
+6. os dois endpoints passam a representar a mesma placa.
 
-- e-mail obrigatório;
-- claim expira;
+Não dependemos da Web NFC API. Cada leitura simplesmente abre uma URL Torvya no navegador.
+
+## Ativação do cliente
+
+Depois do pareamento:
+
+1. QR ou NFC abre o domínio de redirect;
+2. o Worker identifica a placa ainda não ativada;
+3. encaminha para `/activate/google/CODIGO_CANONICO`;
+4. o responsável informa somente:
+   - e-mail;
+   - link direto para avaliação no Google ou Place ID;
+5. a Torvya envia um magic link;
+6. o responsável confirma o e-mail;
+7. a placa passa para `activated`;
+8. os dois endpoints são sincronizados no Cloudflare KV;
+9. próximos acessos vão diretamente ao destino configurado.
+
+## Sem senha
+
+O primeiro acesso usa confirmação por e-mail.
+
+Controles atuais:
+
+- claim expira em 30 minutos;
 - um claim aberto por placa;
-- recuperação administrativa;
-- manter a placa embalada até a instalação.
+- pareamento físico expira em 15 minutos;
+- QR e NFC são validados contra o estoque cadastrado;
+- uma tag NFC não pode ser vinculada a duas placas;
+- o código público não funciona como senha.
 
-Para canais de revenda, a evolução recomendada é um QR/código de ativação de uso único dentro da embalagem, sem transformar o QR público em senha.
+## Recuperação
 
-## Mais de uma tela de ativação
+Erros de pareamento levam para uma tela explícita de recuperação e para o suporte.
 
-O roteamento é definido por `product_type`.
-
-Exemplo:
-
-    google_review → /activate/google/CODIGO
-    direct_link   → /activate/link/CODIGO
-    nooli_page    → /activate/page/CODIGO
-
-Isso permite criar produtos diferentes no futuro sem misturar as experiências.
-
-## Contato com a Nooli
-
-Cada produto físico deve acompanhar um cartão simples com:
-
-- marca Nooli;
-- instrução de primeiro uso;
-- QR de suporte;
-- WhatsApp;
-- e-mail;
-- endereço do painel.
-
-O site também mantém `/support` e botão persistente de contato.
+A URL pública física continua desacoplada do destino final. O destino pode ser alterado no servidor sem regravar o QR ou a tag NFC.

@@ -6,13 +6,13 @@ export default function TermsPage() {
   return (
     <LegalPage
       eyebrow="termos de uso"
-      title="Regras para usar a Nooli."
+      title="Regras para usar a Torvya."
       description="Termos iniciais do serviço digital, do painel e das placas inteligentes."
     >
       <h2>1. O serviço</h2>
       <p>
-        A Nooli fornece produtos físicos com QR Code e/ou NFC associados a uma
-        infraestrutura de redirecionamento e gestão. O produto inicial, Nooli Review,
+        A Torvya fornece produtos físicos com QR Code e/ou NFC associados a uma
+        infraestrutura de redirecionamento e gestão. O produto inicial, Torvya Review,
         direciona para uma URL de avaliação do Google configurada pelo cliente.
       </p>
 
@@ -25,23 +25,23 @@ export default function TermsPage() {
 
       <h2>3. Destinos permitidos</h2>
       <p>
-        Não é permitido usar a Nooli para fraude, phishing, malware, conteúdo ilegal,
+        Não é permitido usar a Torvya para fraude, phishing, malware, conteúdo ilegal,
         violação de direitos de terceiros ou qualquer finalidade que exponha usuários a
-        risco. A Nooli pode suspender um destino quando houver indícios razoáveis de
+        risco. A Torvya pode suspender um destino quando houver indícios razoáveis de
         abuso, obrigação legal ou risco de segurança.
       </p>
 
       <h2>4. Plataformas de terceiros</h2>
       <p>
-        Google, WhatsApp, Instagram e outros serviços são independentes da Nooli. A
+        Google, WhatsApp, Instagram e outros serviços são independentes da Torvya. A
         disponibilidade, políticas e funcionamento desses serviços são definidos pelos
-        respectivos titulares. A Nooli não garante manutenção permanente de recursos
+        respectivos titulares. A Torvya não garante manutenção permanente de recursos
         que dependem exclusivamente de terceiros.
       </p>
 
       <h2>5. Avaliações</h2>
       <p>
-        A Nooli facilita o acesso ao local de avaliação; ela não cria avaliações, não
+        A Torvya facilita o acesso ao local de avaliação; ela não cria avaliações, não
         compra opiniões e não deve ser usada para manipular notas ou selecionar somente
         clientes satisfeitos. O estabelecimento continua responsável por observar as
         regras da plataforma utilizada.

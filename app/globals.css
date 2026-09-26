@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
-
 :root {
   color-scheme: dark;
   --bg: #06080c;
@@ -37,7 +35,7 @@ body {
     radial-gradient(circle at 88% 18%, rgba(103, 232, 249, 0.1), transparent 28rem),
     var(--bg);
   color: var(--text);
-  font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -121,7 +119,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-weight: 700;
   letter-spacing: -.045em;
   font-size: 1.18rem;
@@ -249,7 +247,7 @@ button {
 
 .hero h1 {
   margin: 24px 0 22px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(3.5rem, 7.7vw, 7.4rem);
   line-height: .88;
   letter-spacing: -.075em;
@@ -351,7 +349,7 @@ button {
 }
 
 .plate-logo {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: 1.12rem;
   font-weight: 700;
   letter-spacing: -.04em;
@@ -395,7 +393,7 @@ button {
 .plate-copy strong {
   display: block;
   max-width: 280px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: 2.4rem;
   line-height: 1;
   letter-spacing: -.05em;
@@ -472,7 +470,7 @@ button {
 
 .section-heading h2 {
   margin: 14px 0 14px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(2.4rem, 5vw, 4.5rem);
   letter-spacing: -.06em;
   line-height: .98;
@@ -524,7 +522,7 @@ button {
 
 .feature-card h3 {
   margin: 65px 0 10px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: 1.45rem;
   letter-spacing: -.035em;
 }
@@ -609,7 +607,7 @@ button {
 .cta-content h2 {
   margin: 0 auto 16px;
   max-width: 760px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(2.4rem, 5.6vw, 5rem);
   letter-spacing: -.065em;
   line-height: .96;
@@ -769,7 +767,7 @@ button {
 .activation-side h1,
 .auth-card h1 {
   margin: 18px 0 12px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -.055em;
   font-size: clamp(2.3rem, 5vw, 4rem);
   line-height: .98;
@@ -816,7 +814,7 @@ button {
 
 .activation-card h2 {
   margin: 0 0 8px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: 1.65rem;
   letter-spacing: -.04em;
 }
@@ -860,7 +858,7 @@ button {
 
 .dashboard-head h1 {
   margin: 0;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -.05em;
   font-size: clamp(2.2rem, 4vw, 3.8rem);
 }
@@ -982,7 +980,7 @@ button {
 }
 
 
-/* === Nooli 2026 design system: light + dark, legal and ecosystem pages === */
+/* === Torvya design system: light + dark, legal and ecosystem pages === */
 
 :root {
   --nav-bg: rgba(8, 11, 16, .72);
@@ -1094,7 +1092,7 @@ html[data-theme="light"] .identity-card,
 html[data-theme="light"] .legal-link-card,
 html[data-theme="light"] .product-card,
 html[data-theme="light"] .platform-card,
-html[data-theme="light"] .nooli-page-preview {
+html[data-theme="light"] .torvya-page-preview {
   background: rgba(255,255,255,.72);
   border-color: rgba(15,23,42,.09);
   color: #11151b;
@@ -1177,7 +1175,7 @@ textarea:focus-visible {
 .page-hero h1 {
   margin: 22px 0 20px;
   max-width: 900px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(3.2rem, 7vw, 6.7rem);
   line-height: .9;
   letter-spacing: -.07em;
@@ -1215,7 +1213,7 @@ textarea:focus-visible {
 
 .product-card h2 {
   margin: 56px 0 12px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: 2rem;
   letter-spacing: -.045em;
 }
@@ -1299,7 +1297,7 @@ textarea:focus-visible {
   font-size: .9rem;
 }
 
-.nooli-page-preview {
+.torvya-page-preview {
   display: grid;
   grid-template-columns: 1.12fr .88fr;
   gap: 40px;
@@ -1312,7 +1310,7 @@ textarea:focus-visible {
 
 .preview-copy h2 {
   margin: 16px 0 14px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(2.3rem, 4vw, 4.2rem);
   letter-spacing: -.055em;
   line-height: .98;
@@ -1338,7 +1336,7 @@ textarea:focus-visible {
   border-radius: 21px;
   display: grid;
   place-items: center;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-weight: 800;
   background: var(--lime);
   color: #08100a;
@@ -1378,7 +1376,7 @@ textarea:focus-visible {
 
 .legal-container > h1 {
   margin: 20px 0 16px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(3rem, 7vw, 5.8rem);
   letter-spacing: -.065em;
   line-height: .94;
@@ -1401,7 +1399,7 @@ textarea:focus-visible {
 
 .legal-card h2 {
   margin: 34px 0 10px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -.035em;
 }
 
@@ -1548,7 +1546,7 @@ textarea:focus-visible {
 @media (max-width: 900px) {
   .product-showcase,
   .platform-grid,
-  .nooli-page-preview,
+  .torvya-page-preview,
   .footer-grid {
     grid-template-columns: 1fr;
   }
@@ -1583,7 +1581,7 @@ textarea:focus-visible {
     font-size: 3.3rem;
   }
 
-  .nooli-page-preview,
+  .torvya-page-preview,
   .legal-card {
     padding: 22px;
   }
@@ -1637,4 +1635,571 @@ textarea:focus-visible {
 html[data-theme="light"] .ecosystem-chip.active {
   border-color: rgba(93,143,40,.22);
   background: rgba(143,213,62,.10);
+}
+
+
+/* === Torvya marketing, pairing and onboarding refinements === */
+
+.torvya-hero::before {
+  content: "";
+  position: absolute;
+  width: min(54vw, 760px);
+  aspect-ratio: 1;
+  right: -18%;
+  top: 8%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(185,255,102,.10), rgba(103,232,249,.035) 38%, transparent 70%);
+  filter: blur(4px);
+}
+
+.hero-copy-block {
+  position: relative;
+  z-index: 2;
+}
+
+.trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: .84rem;
+  font-weight: 650;
+}
+
+.trust-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.trust-row svg {
+  color: var(--lime);
+}
+
+.torvya-plate {
+  animation: plateFloat 7s ease-in-out infinite;
+}
+
+.torvya-plate .plate-top > svg {
+  color: var(--lime);
+}
+
+.plate-caption {
+  position: absolute;
+  left: 34px;
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--lime);
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.compact-section {
+  padding-top: 24px;
+  padding-bottom: 72px;
+}
+
+.statement-strip {
+  min-height: 86px;
+  border-radius: 24px;
+  padding: 18px 24px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 28px;
+  text-align: center;
+  color: var(--muted);
+  font-size: .88rem;
+}
+
+.statement-strip strong {
+  color: var(--text);
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.12rem;
+  letter-spacing: -.025em;
+}
+
+.split-heading {
+  max-width: none;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.split-heading > div {
+  max-width: 760px;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-weight: 800;
+  font-size: .9rem;
+  white-space: nowrap;
+}
+
+.text-link:hover {
+  color: var(--lime);
+}
+
+.journey-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.journey-card {
+  min-height: 250px;
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: var(--soft-panel);
+}
+
+.journey-card > span {
+  color: var(--lime);
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+  font-size: .8rem;
+  letter-spacing: .08em;
+}
+
+.journey-card h3 {
+  margin: 88px 0 10px;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.45rem;
+  letter-spacing: -.035em;
+}
+
+.journey-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: .92rem;
+}
+
+.dual-path {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 48px;
+  align-items: center;
+  padding: 46px;
+  border-radius: 34px;
+}
+
+.dual-path-copy h2 {
+  margin: 18px 0 14px;
+  max-width: 720px;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(2.4rem, 4.8vw, 4.5rem);
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+
+.dual-path-copy > p {
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 680px;
+}
+
+.clean-checks {
+  list-style: none;
+  padding: 0;
+  margin: 26px 0 0;
+  display: grid;
+  gap: 11px;
+  color: var(--text);
+  font-size: .9rem;
+}
+
+.clean-checks li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.clean-checks svg {
+  color: var(--lime);
+  flex: 0 0 auto;
+}
+
+.pairing-visual {
+  display: grid;
+  grid-template-columns: 1fr 52px 72px 52px 1fr;
+  align-items: center;
+}
+
+.pair-node {
+  min-height: 124px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  background: var(--surface-soft);
+  font-weight: 800;
+}
+
+.pair-node svg {
+  color: var(--lime);
+}
+
+.pair-core {
+  width: 72px;
+  height: 72px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  color: #070a08;
+  background: var(--lime);
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 1.45rem;
+  box-shadow: 0 0 48px rgba(185,255,102,.18);
+}
+
+.pair-line {
+  height: 1px;
+  background: var(--line-strong);
+  position: relative;
+}
+
+.pair-line span {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  top: 50%;
+  left: 0;
+  translate: 0 -50%;
+  border-radius: 50%;
+  background: var(--lime);
+  animation: pairPulse 2.4s ease-in-out infinite;
+}
+
+.trust-panel {
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 34px;
+  background: var(--soft-panel);
+}
+
+.trust-panel > div {
+  max-width: 720px;
+}
+
+.trust-panel svg {
+  color: var(--lime);
+}
+
+.trust-panel h3 {
+  margin: 16px 0 8px;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: -.035em;
+}
+
+.trust-panel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.trust-panel > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  font-weight: 800;
+}
+
+.reveal {
+  animation: revealUp .65s cubic-bezier(.2,.7,.2,1) both;
+}
+
+.reveal-delay {
+  animation-delay: .10s;
+}
+
+.pairing-shell {
+  min-height: 100svh;
+  padding: 92px 20px 44px;
+  display: grid;
+  place-items: center;
+}
+
+.pairing-container {
+  width: min(760px, 100%);
+}
+
+.pairing-card {
+  padding: 34px;
+  border-radius: 30px;
+}
+
+.pairing-icon {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+  border-radius: 21px;
+  color: var(--lime);
+  background: rgba(185,255,102,.08);
+  border: 1px solid rgba(185,255,102,.18);
+}
+
+.pairing-card h1 {
+  margin: 16px 0 12px;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(2.3rem, 6vw, 4.2rem);
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+
+.pairing-card > p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.pair-code {
+  margin: 20px 0;
+  padding: 13px 15px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--lime);
+  background: var(--surface-soft);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .84rem;
+  letter-spacing: .05em;
+  overflow-wrap: anywhere;
+}
+
+.pairing-actions {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.consent-row {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 10px;
+  align-items: start;
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+.consent-row input {
+  margin-top: 3px;
+  accent-color: var(--lime);
+}
+
+.consent-row a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.onboarding-summary {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--surface-soft);
+}
+
+.onboarding-summary strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.onboarding-summary span {
+  color: var(--muted);
+  font-size: .84rem;
+  line-height: 1.55;
+}
+
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes plateFloat {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50% { transform: rotate(-2.5deg) translateY(-10px); }
+}
+
+@keyframes pairPulse {
+  0% { left: 0; opacity: .2; }
+  50% { opacity: 1; }
+  100% { left: calc(100% - 7px); opacity: .2; }
+}
+
+@media (max-width: 900px) {
+  .statement-strip,
+  .journey-grid,
+  .dual-path {
+    grid-template-columns: 1fr;
+  }
+
+  .statement-strip {
+    gap: 10px;
+  }
+
+  .split-heading,
+  .trust-panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pairing-visual {
+    width: min(520px, 100%);
+  }
+}
+
+@media (max-width: 600px) {
+  .torvya-hero::before {
+    width: 110vw;
+    right: -55%;
+  }
+
+  .trust-row {
+    display: grid;
+  }
+
+  .dual-path {
+    padding: 24px;
+  }
+
+  .pairing-visual {
+    grid-template-columns: 1fr 26px 58px 26px 1fr;
+  }
+
+  .pair-core {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+  }
+
+  .pair-node {
+    min-height: 98px;
+    border-radius: 18px;
+  }
+
+  .pairing-card {
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-delay {
+    animation: none !important;
+  }
+}
+
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon > svg {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 1;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.input-with-icon .input {
+  padding-left: 44px;
+}
+
+.journey-grid-four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.process-card > svg {
+  color: var(--lime);
+  margin-bottom: 18px;
+}
+
+.process-card h3 {
+  margin-top: 34px;
+}
+
+.activation-help-link {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.activation-help-link:hover {
+  color: var(--text);
+}
+
+.google-product-badge {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-soft);
+}
+
+.google-product-badge > div {
+  display: grid;
+  gap: 2px;
+}
+
+.google-product-badge strong {
+  font-size: .88rem;
+}
+
+.google-product-badge span:not(.google-star) {
+  color: var(--muted);
+  font-size: .72rem;
+}
+
+.google-star {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: #f5b301;
+  background: rgba(245,179,1,.08);
+}
+
+@media (max-width: 1100px) {
+  .journey-grid-four {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .journey-grid-four {
+    grid-template-columns: 1fr;
+  }
 }

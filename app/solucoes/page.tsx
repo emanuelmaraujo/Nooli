@@ -4,7 +4,7 @@ import { SiteFooter } from "../../components/site-footer";
 
 export const metadata = {
   title: "Soluções",
-  description: "Nooli Review, Nooli Link e Nooli Page: uma infraestrutura, experiências diferentes.",
+  description: "Torvya Review, Torvya Link e Torvya Page: uma infraestrutura, experiências diferentes.",
 };
 
 const platforms = [
@@ -23,10 +23,10 @@ export default function SolutionsPage() {
       <main id="conteudo">
         <section className="page-hero">
           <div className="site-shell">
-            <div className="eyebrow">ecossistema nooli</div>
+            <div className="eyebrow">ecossistema torvya</div>
             <h1>Uma infraestrutura.<br />Várias experiências.</h1>
             <p>
-              Começamos com avaliações do Google, mas a arquitetura da Nooli foi criada
+              Começamos com avaliações do Google, mas a arquitetura da Torvya foi criada
               para que uma placa física possa assumir experiências diferentes sem
               reinventar o produto.
             </p>
@@ -39,7 +39,7 @@ export default function SolutionsPage() {
               <article className="product-card featured">
                 <div className="product-status live">Disponível</div>
                 <Star size={28} />
-                <h2>Nooli Review</h2>
+                <h2>Torvya Review</h2>
                 <p>
                   QR + NFC para avaliações do Google. Primeiro acesso guiado, confirmação
                   por e-mail e redirecionamento direto após a ativação.
@@ -52,7 +52,7 @@ export default function SolutionsPage() {
               <article className="product-card">
                 <div className="product-status">Em breve</div>
                 <QrCode size={28} />
-                <h2>Nooli Link</h2>
+                <h2>Torvya Link</h2>
                 <p>
                   Uma placa personalizada que pode apontar para WhatsApp, Instagram,
                   site, cardápio, campanha ou outro destino permitido.
@@ -62,7 +62,7 @@ export default function SolutionsPage() {
               <article className="product-card">
                 <div className="product-status">Em desenvolvimento</div>
                 <Store size={28} />
-                <h2>Nooli Page</h2>
+                <h2>Torvya Page</h2>
                 <p>
                   Uma página própria do negócio, mais visual e mais flexível que uma
                   simples lista de links.
@@ -76,7 +76,7 @@ export default function SolutionsPage() {
           <div className="site-shell">
             <div className="section-heading">
               <div className="eyebrow">multiplataformas</div>
-              <h2>O destino muda. A experiência continua Nooli.</h2>
+              <h2>O destino muda. A experiência continua Torvya.</h2>
               <p>
                 Cada produto terá seu próprio onboarding e regras. Isso evita colocar
                 opções demais na configuração de uma placa que foi vendida para uma
@@ -103,7 +103,7 @@ export default function SolutionsPage() {
 
         <section className="section">
           <div className="site-shell">
-            <div className="nooli-page-preview">
+            <div className="torvya-page-preview">
               <div className="preview-copy">
                 <div className="eyebrow">futuro · nooli page</div>
                 <h2>Não será só “link na bio”.</h2>
@@ -117,14 +117,14 @@ export default function SolutionsPage() {
                 </span>
               </div>
 
-              <div className="profile-mock" aria-label="Prévia conceitual da Nooli Page">
+              <div className="profile-mock" aria-label="Prévia conceitual da Torvya Page">
                 <div className="profile-logo">nc</div>
-                <strong>Nooli Café</strong>
+                <strong>Torvya Café</strong>
                 <span>Café · Brasília</span>
                 <button type="button">Pedir pelo WhatsApp</button>
                 <button type="button">Ver cardápio</button>
                 <button type="button">Como chegar</button>
-                <small>feito com nooli</small>
+                <small>feito com torvya</small>
               </div>
             </div>
           </div>

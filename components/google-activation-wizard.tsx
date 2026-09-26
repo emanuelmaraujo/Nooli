@@ -1,28 +1,32 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
-import { ArrowRight, CheckCircle2, ExternalLink, Star } from "lucide-react";
+import { ArrowRight, CheckCircle2, ExternalLink, Mail, Star } from "lucide-react";
 
 export function GoogleActivationWizard({ code }: { code: string }) {
   const [destination, setDestination] = useState("");
-  const [businessName, setBusinessName] = useState("");
   const [email, setEmail] = useState("");
+  const [accepted, setAccepted] = useState(false);
   const [status, setStatus] = useState<"idle"|"loading"|"ok"|"error">("idle");
   const [message, setMessage] = useState("");
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+
+    if (!accepted) {
+      setStatus("error");
+      setMessage("Confirme que leu os Termos e o Aviso de Privacidade.");
+      return;
+    }
+
     setStatus("loading");
     setMessage("");
 
     const response = await fetch("/api/plates/" + code + "/claim", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        destination,
-        businessName,
-        email
-      })
+      body: JSON.stringify({ destination, email })
     });
 
     const data = await response.json().catch(() => ({}));
@@ -34,7 +38,7 @@ export function GoogleActivationWizard({ code }: { code: string }) {
     }
 
     setStatus("ok");
-    setMessage("Enviamos um link de confirmação para o seu e-mail.");
+    setMessage("Enviamos um link seguro para confirmar este e-mail e concluir a ativação.");
   }
 
   return (
@@ -42,78 +46,86 @@ export function GoogleActivationWizard({ code }: { code: string }) {
       <div className="google-product-badge">
         <span className="google-star"><Star size={18} fill="currentColor" /></span>
         <div>
-          <strong>Nooli Review</strong>
+          <strong>Torvya Review</strong>
           <span>Google Avaliações</span>
         </div>
       </div>
 
       <div>
-        <h2>Conecte sua avaliação do Google.</h2>
+        <h2>Falta só conectar seu Google.</h2>
         <p className="muted">
-          Cole o link de avaliação do seu Perfil da Empresa no Google.
-          Também aceitamos o Place ID.
+          São apenas dois dados. Depois da confirmação, QR e NFC passam a abrir o
+          destino configurado.
         </p>
       </div>
 
       <div className="field">
-        <label htmlFor="google-review">Link de avaliação ou Place ID</label>
+        <label htmlFor="google-review">Link para avaliar no Google</label>
         <input
           id="google-review"
           className="input"
           required
           autoFocus
+          inputMode="url"
+          autoComplete="url"
           placeholder="https://g.page/r/.../review"
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
+          aria-describedby="google-review-help"
         />
-        <span className="helper">
-          Depois de ativada, a placa abre esse endereço direto. Você pode trocar o destino pelo painel sem reimprimir.
+        <span className="helper" id="google-review-help">
+          Aceitamos o link de avaliação do Perfil da Empresa no Google ou um Place ID.
         </span>
       </div>
 
       <div className="field">
-        <label htmlFor="business">Nome do negócio</label>
-        <input
-          id="business"
-          className="input"
-          required
-          placeholder="Ex.: Café Central"
-          value={businessName}
-          onChange={(e) => setBusinessName(e.target.value)}
-        />
-      </div>
-
-      <div className="field">
-        <label htmlFor="claim-email">E-mail do responsável</label>
-        <input
-          id="claim-email"
-          className="input"
-          type="email"
-          required
-          placeholder="voce@empresa.com.br"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <label htmlFor="claim-email">Seu e-mail</label>
+        <div className="input-with-icon">
+          <Mail size={17} aria-hidden="true" />
+          <input
+            id="claim-email"
+            className="input"
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="voce@empresa.com.br"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
         <span className="helper">
-          Usamos o e-mail para confirmar a primeira configuração e liberar o painel. Não há senha para memorizar.
+          Esse e-mail será usado para confirmar a ativação e acessar o painel. Sem senha para memorizar.
         </span>
       </div>
 
-      {status === "error" && <div className="error-box">{message}</div>}
+      <label className="consent-row">
+        <input
+          type="checkbox"
+          checked={accepted}
+          onChange={(event) => setAccepted(event.target.checked)}
+          required
+        />
+        <span>
+          Li e concordo com os <Link href="/termos" target="_blank">Termos de uso</Link> e
+          confirmo ciência do <Link href="/privacidade" target="_blank">Aviso de Privacidade</Link>.
+        </span>
+      </label>
+
+      {status === "error" && <div className="error-box" role="alert">{message}</div>}
       {status === "ok" && (
-        <div className="success-box">
+        <div className="success-box" role="status">
           <CheckCircle2 size={18} />
           {message}
         </div>
       )}
 
       <button className="primary-button" disabled={status === "loading" || status === "ok"}>
-        {status === "loading" ? "Preparando..." : "Ativar minha placa"}
+        {status === "loading" ? "Preparando..." : "Confirmar e ativar"}
         <ArrowRight size={18} />
       </button>
 
       <a className="activation-help-link" href="/support">
-        Não encontrou seu link do Google? Fale com a Nooli
+        Não encontrou o link de avaliação? Fale com a Torvya
         <ExternalLink size={14} />
       </a>
     </form>

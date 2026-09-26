@@ -1,9 +1,10 @@
-type RedirectState = "unclaimed" | "active" | "suspended" | "retired";
+type RedirectState = "pairing" | "unclaimed" | "active" | "suspended" | "retired";
 
-type RedirectRecord = {
+export type RedirectRecord = {
   state: RedirectState;
   url?: string;
   productType?: string;
+  canonicalCode?: string;
   version?: number;
 };
 

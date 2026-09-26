@@ -29,7 +29,7 @@ export default function ReturnsPage() {
       <h2>Produto personalizado</h2>
       <p>
         Personalização, produção sob encomenda e início de execução podem alterar a
-        análise jurídica de um caso concreto. A Nooli não utilizará esta página para
+        análise jurídica de um caso concreto. A Torvya não utilizará esta página para
         excluir automaticamente direitos obrigatórios do consumidor.
       </p>
 
