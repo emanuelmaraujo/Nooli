@@ -7,7 +7,7 @@ export default function CookiesPage() {
     <LegalPage
       eyebrow="cookies e tecnologias"
       title="Pouco rastreamento. Finalidade clara."
-      description="A Nooli pretende usar apenas o necessário para funcionamento, segurança e métricas compatíveis com a experiência."
+      description="A Torvya pretende usar apenas o necessário para funcionamento, segurança e métricas compatíveis com a experiência."
     >
       <h2>Essenciais</h2>
       <p>
@@ -23,7 +23,7 @@ export default function CookiesPage() {
 
       <h2>Métricas</h2>
       <p>
-        Caso métricas opcionais sejam habilitadas no site comercial, a Nooli deverá
+        Caso métricas opcionais sejam habilitadas no site comercial, a Torvya deverá
         avaliar a base legal aplicável e disponibilizar controles de consentimento quando
         necessários. Métricas operacionais de segurança e disponibilidade podem ter
         fundamento diferente.
