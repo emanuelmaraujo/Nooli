@@ -1,13 +1,18 @@
 import { notFound } from "next/navigation";
+import { CheckCircle2 } from "lucide-react";
 import { Logo } from "../../../../components/logo";
 import { GoogleActivationWizard } from "../../../../components/google-activation-wizard";
 
-type PageProps = { params: Promise<{ code: string }> };
+type PageProps = {
+  params: Promise<{ code: string }>;
+  searchParams: Promise<{ paired?: string }>;
+};
 
-export const metadata = { title: "Ativar Nooli Review" };
+export const metadata = { title: "Ativar Torvya Review" };
 
-export default async function GoogleActivatePage({ params }: PageProps) {
+export default async function GoogleActivatePage({ params, searchParams }: PageProps) {
   const { code } = await params;
+  const { paired } = await searchParams;
   const normalized = code.toUpperCase().replace(/[^A-Z0-9]/g, "");
 
   if (normalized.length < 6 || normalized.length > 16) notFound();
@@ -19,19 +24,27 @@ export default async function GoogleActivatePage({ params }: PageProps) {
         <div className="activation-grid" style={{ marginTop: 40 }}>
           <section className="activation-side google-activation-side">
             <div>
-              <div className="eyebrow">primeiro acesso · nooli review</div>
-              <h1>Transforme um toque em uma avaliação.</h1>
+              <div className="eyebrow">primeiro acesso · Torvya Review</div>
+              <h1>Sua placa está quase pronta.</h1>
               <p>
-                Sua placa já está pronta. Falta somente conectar o endereço de avaliação do seu negócio no Google.
+                Informe o e-mail responsável e o link direto para avaliação no Google.
+                A Torvya cuida do restante.
               </p>
+
+              {paired === "1" && (
+                <div className="success-box" style={{ marginTop: 18 }}>
+                  <CheckCircle2 size={18} />
+                  QR Code e NFC conectados com sucesso.
+                </div>
+              )}
             </div>
 
             <div>
               <div className="activation-code">{normalized}</div>
               <div className="step-list">
-                <div className="step-item active"><span>1</span> cole o link do Google</div>
-                <div className="step-item"><span>2</span> identifique o negócio</div>
-                <div className="step-item"><span>3</span> confirme por e-mail</div>
+                <div className="step-item active"><span>1</span> informe o link do Google</div>
+                <div className="step-item active"><span>2</span> informe seu e-mail</div>
+                <div className="step-item"><span>3</span> confirme pelo link recebido</div>
               </div>
             </div>
           </section>
