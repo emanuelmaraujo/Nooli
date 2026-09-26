@@ -11,41 +11,19 @@ export default function ReturnsPage() {
       description="Um caminho claro para solicitar atendimento antes e depois da compra."
     >
       <h2>Compras fora do estabelecimento</h2>
-      <p>
-        Nas hipóteses em que o direito de arrependimento do Código de Defesa do Consumidor
-        for aplicável, o consumidor poderá exercê-lo no prazo legal de 7 dias, contado
-        conforme a legislação. O canal eletrônico usado para a compra não será o único
-        meio disponível para solicitar atendimento.
-      </p>
+      <p>Nas hipóteses em que o direito de arrependimento previsto no Código de Defesa do Consumidor for aplicável, o consumidor poderá exercê-lo dentro do prazo legal.</p>
 
       <h2>Produto com vício</h2>
-      <p>
-        A garantia legal segue os prazos e condições do Código de Defesa do Consumidor.
-        Para produtos duráveis, o CDC prevê prazo de 90 dias para reclamar de vícios
-        aparentes ou de fácil constatação, sem prejuízo das regras específicas para vício
-        oculto.
-      </p>
+      <p>A garantia legal segue os prazos e condições previstos na legislação brasileira, inclusive as regras aplicáveis a vícios aparentes, de fácil constatação e ocultos.</p>
 
       <h2>Produto personalizado</h2>
-      <p>
-        Personalização, produção sob encomenda e início de execução podem alterar a
-        análise jurídica de um caso concreto. A Nooli não utilizará esta página para
-        excluir automaticamente direitos obrigatórios do consumidor.
-      </p>
+      <p>Personalização e produção sob encomenda podem exigir análise do caso concreto, mas a Torvya não usa esta condição para excluir automaticamente direitos obrigatórios do consumidor.</p>
 
       <h2>Como pedir atendimento</h2>
-      <p>
-        Entre em contato pelo e-mail {legalIdentity.supportEmail || "de suporte que será publicado antes do início das vendas"}.
-        Informe o número do pedido, descrição do problema e, se necessário, fotos ou
-        outras evidências que ajudem na análise.
-      </p>
+      <p>Entre em contato pelo e-mail {legalIdentity.supportEmail || "de suporte que será publicado antes do início das vendas"}. Informe o número do pedido e descreva a solicitação.</p>
 
       <h2>Reembolsos</h2>
-      <p>
-        Quando o reembolso for devido, o procedimento considerará o meio de pagamento e
-        as regras legais aplicáveis. A confirmação da solicitação deverá ser enviada ao
-        consumidor.
-      </p>
+      <p>Quando devido, o reembolso seguirá o meio de pagamento e as regras legais aplicáveis, com confirmação da solicitação ao consumidor.</p>
     </LegalPage>
   );
 }

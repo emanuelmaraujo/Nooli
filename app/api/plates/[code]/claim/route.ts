@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createSupabaseAdminClient } from "../../../../../lib/supabase/admin";
@@ -5,7 +6,6 @@ import { normalizeGoogleReviewDestination } from "../../../../../lib/google-revi
 
 const schema = z.object({
   destination: z.string().min(3).max(2000),
-  businessName: z.string().min(2).max(120),
   email: z.string().email()
 });
 
@@ -18,37 +18,12 @@ export async function POST(
   const parsed = schema.safeParse(await request.json().catch(() => null));
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "Confira os dados informados." }, { status: 400 });
+    return NextResponse.json({ error: "Confira o e-mail e o link informado." }, { status: 400 });
   }
 
   const supabase = createSupabaseAdminClient();
-
   if (!supabase) {
-    return NextResponse.json(
-      { error: "Ambiente ainda não está conectado ao Supabase." },
-      { status: 503 }
-    );
-  }
-
-  const { data: plate, error: plateError } = await supabase
-    .from("plates")
-    .select("id,status,organization_id,product_type")
-    .eq("public_code", publicCode)
-    .maybeSingle();
-
-  if (plateError || !plate) {
-    return NextResponse.json({ error: "Placa não encontrada." }, { status: 404 });
-  }
-
-  if (plate.product_type !== "google_review") {
-    return NextResponse.json(
-      { error: "Este produto usa outro fluxo de configuração." },
-      { status: 409 }
-    );
-  }
-
-  if (plate.organization_id || plate.status === "activated") {
-    return NextResponse.json({ error: "Essa placa já foi configurada." }, { status: 409 });
+    return NextResponse.json({ error: "Ambiente ainda não conectado ao Supabase." }, { status: 503 });
   }
 
   let destinationUrl: string;
@@ -56,24 +31,89 @@ export async function POST(
     destinationUrl = normalizeGoogleReviewDestination(parsed.data.destination);
   } catch {
     return NextResponse.json(
-      { error: "Cole um link de avaliação do Google ou um Place ID válido." },
+      { error: "Cole um link oficial de avaliação do Google." },
       { status: 400 }
     );
   }
 
-  await supabase
-    .from("plate_claims")
-    .delete()
-    .eq("plate_id", plate.id)
-    .is("consumed_at", null)
-    .lt("expires_at", new Date().toISOString());
+  const { data: media, error: mediaError } = await supabase
+    .from("media_tokens")
+    .select("id,medium,plate_id,product_type")
+    .eq("code", publicCode)
+    .maybeSingle();
+
+  if (mediaError) {
+    return NextResponse.json({ error: "Não foi possível validar este código." }, { status: 500 });
+  }
+
+  if (media) {
+    if (media.plate_id) {
+      const { data: plate } = await supabase
+        .from("plates")
+        .select("id,status,organization_id")
+        .eq("id", media.plate_id)
+        .maybeSingle();
+
+      if (plate?.organization_id || plate?.status === "activated") {
+        return NextResponse.json({ error: "Essa placa já foi configurada." }, { status: 409 });
+      }
+    }
+
+    const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+    const { data: session, error: sessionError } = await supabase
+      .from("pairing_sessions")
+      .insert({
+        first_media_id: media.id,
+        email: parsed.data.email.toLowerCase(),
+        destination_type: "google_review",
+        destination_url: destinationUrl,
+        state: "pending",
+        expires_at: expiresAt
+      })
+      .select("id")
+      .single();
+
+    if (sessionError || !session) {
+      return NextResponse.json({ error: "Não foi possível iniciar o pareamento." }, { status: 500 });
+    }
+
+    const cookieStore = await cookies();
+    cookieStore.set("torvya_pairing_session", session.id, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 30 * 60
+    });
+
+    return NextResponse.json({
+      ok: true,
+      pairingRequired: true,
+      expectedMedium: media.medium === "qr" ? "nfc" : "qr"
+    });
+  }
+
+  // Compatibilidade com lotes antigos, que usavam um único public_code.
+  const { data: plate } = await supabase
+    .from("plates")
+    .select("id,status,organization_id,product_type")
+    .eq("public_code", publicCode)
+    .maybeSingle();
+
+  if (!plate) {
+    return NextResponse.json({ error: "Código não encontrado." }, { status: 404 });
+  }
+
+  if (plate.organization_id || plate.status === "activated") {
+    return NextResponse.json({ error: "Essa placa já foi configurada." }, { status: 409 });
+  }
 
   const { data: claim, error: claimError } = await supabase
     .from("plate_claims")
     .insert({
       plate_id: plate.id,
       email: parsed.data.email.toLowerCase(),
-      business_name: parsed.data.businessName,
+      business_name: parsed.data.email.split("@")[0],
       destination_type: "google_review",
       destination_url: destinationUrl,
       expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString()
@@ -82,16 +122,8 @@ export async function POST(
     .single();
 
   if (claimError || !claim) {
-    return NextResponse.json(
-      { error: "Já existe uma configuração pendente para esta placa." },
-      { status: 409 }
-    );
+    return NextResponse.json({ error: "Já existe uma configuração pendente." }, { status: 409 });
   }
-
-  await supabase
-    .from("plates")
-    .update({ status: "claiming" })
-    .eq("id", plate.id);
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? new URL(request.url).origin;
   const next = "/claim/complete?claim=" + claim.id;
@@ -103,11 +135,8 @@ export async function POST(
   });
 
   if (otpError) {
-    return NextResponse.json(
-      { error: "Não foi possível enviar a confirmação." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Não foi possível enviar a confirmação." }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, pairingRequired: false });
 }

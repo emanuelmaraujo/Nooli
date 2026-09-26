@@ -14,9 +14,11 @@ export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    const saved = localStorage.getItem("nooli-theme") as Theme | null;
+    const saved = localStorage.getItem("torvya-theme") as Theme | null;
+    const legacy = localStorage.getItem("nooli-theme") as Theme | null;
     const preferred: Theme =
       saved ??
+      legacy ??
       (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
 
     setTheme(preferred);
@@ -26,7 +28,7 @@ export function ThemeToggle() {
   function toggle() {
     const next: Theme = theme === "dark" ? "light" : "dark";
     setTheme(next);
-    localStorage.setItem("nooli-theme", next);
+    localStorage.setItem("torvya-theme", next);
     applyTheme(next);
   }
 

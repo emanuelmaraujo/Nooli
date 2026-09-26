@@ -7,13 +7,13 @@ export function SiteFooter() {
       <div className="site-shell">
         <div className="footer-grid">
           <div>
-            <Link className="brand" href="/">
-              <span className="brand-mark">n</span>
-              nooli
+            <Link className="brand" href="/" aria-label="Torvya — início">
+              <span className="brand-mark">t</span>
+              torvya
             </Link>
             <p className="footer-copy">
-              Conexões físicas com destinos digitais. QR + NFC, configuração simples
-              e infraestrutura preparada para evoluir.
+              A ponte entre o seu ponto físico e a próxima ação do cliente.
+              QR Code e NFC independentes, pareados no primeiro acesso e gerenciados pela Torvya.
             </p>
           </div>
 
@@ -21,14 +21,15 @@ export function SiteFooter() {
             <strong>Produto</strong>
             <Link href="/solucoes">Soluções</Link>
             <Link href="/#como-funciona">Como funciona</Link>
-            <Link href="/support">Suporte</Link>\n            <Link href="/faq">Perguntas frequentes</Link>
+            <Link href="/faq">Perguntas frequentes</Link>
+            <Link href="/support">Suporte</Link>
           </div>
 
           <div className="footer-links">
             <strong>Legal e privacidade</strong>
             <Link href="/legal">Central legal</Link>
             <Link href="/termos">Termos de uso</Link>
-            <Link href="/privacidade">Privacidade</Link>
+            <Link href="/privacidade">Privacidade e LGPD</Link>
             <Link href="/cookies">Cookies</Link>
             <Link href="/trocas-e-devolucoes">Trocas e devoluções</Link>
             <Link href="/acessibilidade">Acessibilidade</Link>
@@ -36,7 +37,7 @@ export function SiteFooter() {
         </div>
 
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Nooli. Todos os direitos reservados.</span>
+          <span>© {new Date().getFullYear()} Torvya. Todos os direitos reservados.</span>
           <span>
             {legalIdentity.document
               ? `${legalIdentity.legalName} · ${legalIdentity.document}`
@@ -45,10 +46,9 @@ export function SiteFooter() {
         </div>
 
         <p className="trademark-note">
-          Nooli é um produto independente. Google, Google Maps, WhatsApp, Instagram e
-          demais marcas citadas pertencem aos seus respectivos titulares. A referência
-          a serviços de terceiros indica apenas compatibilidade e não implica afiliação,
-          patrocínio ou endosso.
+          Torvya é um produto independente. Google, Google Maps, WhatsApp, Instagram e
+          demais marcas citadas pertencem aos seus respectivos titulares. Compatibilidade
+          não implica afiliação, patrocínio ou endosso.
         </p>
       </div>
     </footer>

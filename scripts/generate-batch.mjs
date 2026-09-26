@@ -31,18 +31,15 @@ if (!allowedProducts.has(productType)) {
 
 const alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
 
-function randomCode(length) {
+function randomCode(length = 10) {
   let out = "";
-  for (let i = 0; i < length; i++) {
-    out += alphabet[crypto.randomInt(0, alphabet.length)];
-  }
+  for (let i = 0; i < length; i++) out += alphabet[crypto.randomInt(0, alphabet.length)];
   return out;
 }
 
 function csvCell(value) {
   const str = String(value ?? "");
-  if (/[",\n]/.test(str)) return '"' + str.replaceAll('"', '""') + '"';
-  return str;
+  return /[",\n]/.test(str) ? '"' + str.replaceAll('"', '""') + '"' : str;
 }
 
 function toCsv(rows) {
@@ -56,32 +53,36 @@ await fs.mkdir(qrDir, { recursive: true });
 const used = new Set();
 const factoryRows = [[
   "sequence",
-  "public_code",
   "product_type",
-  "redirect_url",
+  "qr_code",
+  "qr_url",
+  "nfc_code",
   "nfc_url",
   "qr_file"
 ]];
 const inventoryRows = [[
   "sequence",
-  "public_code",
   "product_type",
-  "redirect_url",
+  "qr_code",
+  "nfc_code",
   "status"
 ]];
 
 for (let sequence = 1; sequence <= count; sequence++) {
-  let publicCode;
-  do {
-    publicCode = randomCode(10);
-  } while (used.has(publicCode));
-  used.add(publicCode);
+  let qrCode;
+  let nfcCode;
 
-  const redirectUrl = `${base}/${publicCode}`;
+  do { qrCode = randomCode(); } while (used.has(qrCode));
+  used.add(qrCode);
+  do { nfcCode = randomCode(); } while (used.has(nfcCode));
+  used.add(nfcCode);
+
+  const qrUrl = `${base}/${qrCode}`;
+  const nfcUrl = `${base}/${nfcCode}`;
   const number = String(sequence).padStart(6, "0");
-  const file = `${number}_${publicCode}.svg`;
+  const file = `${number}_QR_${qrCode}.svg`;
 
-  const svg = await QRCode.toString(redirectUrl, {
+  const svg = await QRCode.toString(qrUrl, {
     type: "svg",
     errorCorrectionLevel: "M",
     margin: 2,
@@ -92,18 +93,19 @@ for (let sequence = 1; sequence <= count; sequence++) {
 
   factoryRows.push([
     number,
-    publicCode,
     productType,
-    redirectUrl,
-    redirectUrl,
+    qrCode,
+    qrUrl,
+    nfcCode,
+    nfcUrl,
     `qr/${file}`
   ]);
 
   inventoryRows.push([
     number,
-    publicCode,
     productType,
-    redirectUrl,
+    qrCode,
+    nfcCode,
     "manufactured"
   ]);
 }
@@ -113,4 +115,4 @@ await fs.writeFile(path.join(root, "inventory.csv"), toCsv(inventoryRows), "utf8
 
 console.log(`Lote ${batch} criado: ${count} placas em ${root}`);
 console.log(`Produto: ${productType}`);
-console.log("Envie factory.csv + pasta qr/ para a gráfica.");
+console.log("QR Code e NFC receberam URLs independentes.");

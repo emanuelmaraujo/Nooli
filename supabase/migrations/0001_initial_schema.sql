@@ -11,9 +11,9 @@ create table public.product_templates (
 
 insert into public.product_templates (code, name, activation_flow, description, is_active)
 values
-  ('google_review', 'Nooli Review', 'google_review', 'Placa focada em avaliações do Google.', true),
-  ('direct_link', 'Nooli Link', 'direct_link', 'Placa personalizada com redirecionamento único.', false),
-  ('nooli_page', 'Nooli Page', 'nooli_page', 'Mini página Nooli com múltiplos links e blocos.', false);
+  ('google_review', 'Torvya Review', 'google_review', 'Placa focada em avaliações do Google.', true),
+  ('direct_link', 'Torvya Link', 'direct_link', 'Placa personalizada com redirecionamento único.', false),
+  ('nooli_page', 'Torvya Page', 'nooli_page', 'Mini página Torvya com múltiplos links e blocos.', false);
 
 create table public.organizations (
   id uuid primary key default gen_random_uuid(),

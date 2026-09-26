@@ -1,6 +1,6 @@
 export const legalIdentity = {
-  brand: "Nooli",
-  legalName: process.env.NEXT_PUBLIC_LEGAL_NAME || "Nooli",
+  brand: "Torvya",
+  legalName: process.env.NEXT_PUBLIC_LEGAL_NAME || "Torvya",
   document: process.env.NEXT_PUBLIC_LEGAL_DOCUMENT || "",
   address: process.env.NEXT_PUBLIC_LEGAL_ADDRESS || "",
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "",
