@@ -5,9 +5,18 @@ import { normalizeGoogleReviewDestination } from "../../../../../lib/google-revi
 
 const schema = z.object({
   destination: z.string().min(3).max(2000),
-  businessName: z.string().min(2).max(120),
-  email: z.string().email()
+  email: z.string().email().max(320)
 });
+
+function fallbackBusinessName(email: string) {
+  const local = email.split("@")[0] || "negocio";
+  const readable = local
+    .replace(/[._-]+/g, " ")
+    .trim()
+    .slice(0, 60);
+
+  return readable || "Meu negócio";
+}
 
 export async function POST(
   request: Request,
@@ -18,7 +27,7 @@ export async function POST(
   const parsed = schema.safeParse(await request.json().catch(() => null));
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "Confira os dados informados." }, { status: 400 });
+    return NextResponse.json({ error: "Confira o e-mail e o link informado." }, { status: 400 });
   }
 
   const supabase = createSupabaseAdminClient();
@@ -68,12 +77,14 @@ export async function POST(
     .is("consumed_at", null)
     .lt("expires_at", new Date().toISOString());
 
+  const normalizedEmail = parsed.data.email.trim().toLowerCase();
+
   const { data: claim, error: claimError } = await supabase
     .from("plate_claims")
     .insert({
       plate_id: plate.id,
-      email: parsed.data.email.toLowerCase(),
-      business_name: parsed.data.businessName,
+      email: normalizedEmail,
+      business_name: fallbackBusinessName(normalizedEmail),
       destination_type: "google_review",
       destination_url: destinationUrl,
       expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString()
@@ -83,7 +94,7 @@ export async function POST(
 
   if (claimError || !claim) {
     return NextResponse.json(
-      { error: "Já existe uma configuração pendente para esta placa." },
+      { error: "Já existe uma ativação pendente para esta placa." },
       { status: 409 }
     );
   }
@@ -98,13 +109,13 @@ export async function POST(
   const callback = appUrl + "/auth/callback?next=" + encodeURIComponent(next);
 
   const { error: otpError } = await supabase.auth.signInWithOtp({
-    email: parsed.data.email,
+    email: normalizedEmail,
     options: { emailRedirectTo: callback }
   });
 
   if (otpError) {
     return NextResponse.json(
-      { error: "Não foi possível enviar a confirmação." },
+      { error: "Não foi possível enviar o link de confirmação." },
       { status: 500 }
     );
   }
