@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, MessageCircle, Nfc, QrCode, RefreshCw, Sparkles, Star, Zap } from "lucide-react";
+import { SiteNav } from "./site-nav";
+import { SiteFooter } from "./site-footer";
+import { ArrowRight, BarChart3, Instagram, Link2, MessageCircle, Nfc, QrCode, RefreshCw, Sparkles, Star, Store, Zap } from "lucide-react";
 
 const features = [
   { icon: RefreshCw, title: "Seu link pode mudar", description: "A placa continua a mesma. Se o link de avaliação do Google mudar, você atualiza pelo painel." },
@@ -16,17 +18,9 @@ export function LandingExperience() {
   return (
     <>
       <div className="noise" />
-      <nav className="navbar">
-        <a className="brand" href="#"><span className="brand-mark">n</span>nooli</a>
-        <div className="nav-links">
-          <a href="#como-funciona">Como funciona</a>
-          <a href="#produto">Produto</a>
-          <a href="#contato">Contato</a>
-        </div>
-        <a className="pill-button" href="/login">Entrar <ArrowRight size={16} /></a>
-      </nav>
+      <SiteNav />
 
-      <main>
+      <main id="conteudo">
         <section className="hero">
           <div className="site-shell hero-grid">
             <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
@@ -35,7 +29,7 @@ export function LandingExperience() {
               <p className="hero-copy">Aproxime o celular ou escaneie o QR Code e leve o cliente direto para a avaliação do seu negócio no Google. Configure uma vez e deixe a Nooli cuidar do caminho.</p>
               <div className="hero-actions">
                 <a className="primary-button" href="#como-funciona">Ver como funciona <ArrowRight size={18} /></a>
-                <a className="secondary-button" href="#contato">Falar com a Nooli <MessageCircle size={18} /></a>
+                <a className="secondary-button" href="/support">Falar com a Nooli <MessageCircle size={18} /></a>
               </div>
               <div className="micro-proof">QR + NFC · sem aplicativo · Google direto</div>
             </motion.div>
@@ -77,6 +71,32 @@ export function LandingExperience() {
           </div>
         </section>
 
+        <section className="section ecosystem-teaser">
+          <div className="site-shell">
+            <div className="section-heading">
+              <div className="eyebrow"><Sparkles size={14} /> ecossistema nooli</div>
+              <h2>Começamos pelo Google. A plataforma vai muito além.</h2>
+              <p>
+                A Nooli Review é o primeiro produto. A mesma infraestrutura já está
+                preparada para placas personalizadas, destinos multiplataforma e uma
+                página própria do negócio.
+              </p>
+            </div>
+
+            <div className="ecosystem-row">
+              <div className="ecosystem-chip active"><Star size={17} /> Google Avaliações <span>agora</span></div>
+              <div className="ecosystem-chip"><MessageCircle size={17} /> WhatsApp <span>em breve</span></div>
+              <div className="ecosystem-chip"><Instagram size={17} /> Instagram <span>em breve</span></div>
+              <div className="ecosystem-chip"><Link2 size={17} /> Link direto <span>em breve</span></div>
+              <div className="ecosystem-chip"><Store size={17} /> Nooli Page <span>futuro</span></div>
+            </div>
+
+            <a className="secondary-button" href="/solucoes">
+              Explorar o ecossistema <ArrowRight size={18} />
+            </a>
+          </div>
+        </section>
+
         <section className="section" id="como-funciona">
           <div className="site-shell">
             <div className="section-heading">
@@ -103,7 +123,7 @@ export function LandingExperience() {
         </section>
       </main>
 
-      <footer className="footer"><div className="site-shell footer-row"><span>© {new Date().getFullYear()} Nooli</span><span>QR · NFC · Google Reviews</span></div></footer>
+      <SiteFooter />
       <a className="support-fab" href={support}><MessageCircle size={19} /><span>Suporte</span></a>
     </>
   );
