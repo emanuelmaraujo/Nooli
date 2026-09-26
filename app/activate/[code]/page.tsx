@@ -11,9 +11,16 @@ export default async function ActivateRouterPage({ params }: PageProps) {
   if (normalized.length < 6 || normalized.length > 16) notFound();
 
   const supabase = createSupabaseAdminClient();
+  if (!supabase) redirect("/activate/google/" + normalized);
 
-  if (!supabase) {
-    redirect("/activate/google/" + normalized);
+  const { data: media } = await supabase
+    .from("media_tokens")
+    .select("product_type")
+    .eq("code", normalized)
+    .maybeSingle();
+
+  if (media) {
+    redirect(activationRoute((media.product_type ?? "google_review") as ProductType, normalized));
   }
 
   const { data: plate } = await supabase
@@ -23,6 +30,5 @@ export default async function ActivateRouterPage({ params }: PageProps) {
     .maybeSingle();
 
   if (!plate) notFound();
-
   redirect(activationRoute((plate.product_type ?? "google_review") as ProductType, normalized));
 }

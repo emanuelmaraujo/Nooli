@@ -1,4 +1,4 @@
-export type ProductType = "google_review" | "direct_link" | "nooli_page";
+export type ProductType = "google_review" | "direct_link" | "torvya_page";
 
 export const productCatalog: Record<ProductType, {
   name: string;
@@ -6,17 +6,17 @@ export const productCatalog: Record<ProductType, {
   enabled: boolean;
 }> = {
   google_review: {
-    name: "Nooli Review",
+    name: "Torvya Review",
     activationPath: "google",
     enabled: true
   },
   direct_link: {
-    name: "Nooli Link",
+    name: "Torvya Link",
     activationPath: "link",
     enabled: false
   },
-  nooli_page: {
-    name: "Nooli Page",
+  torvya_page: {
+    name: "Torvya Page",
     activationPath: "page",
     enabled: false
   }
