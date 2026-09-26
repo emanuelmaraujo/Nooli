@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { SiteNav } from "./site-nav";
+import { SiteFooter } from "./site-footer";
 import { ArrowRight, BarChart3, MessageCircle, Nfc, QrCode, RefreshCw, Sparkles, Star, Zap } from "lucide-react";
 
 const features = [
@@ -16,17 +18,9 @@ export function LandingExperience() {
   return (
     <>
       <div className="noise" />
-      <nav className="navbar">
-        <a className="brand" href="#"><span className="brand-mark">n</span>nooli</a>
-        <div className="nav-links">
-          <a href="#como-funciona">Como funciona</a>
-          <a href="#produto">Produto</a>
-          <a href="#contato">Contato</a>
-        </div>
-        <a className="pill-button" href="/login">Entrar <ArrowRight size={16} /></a>
-      </nav>
+      <SiteNav />
 
-      <main>
+      <main id="conteudo">
         <section className="hero">
           <div className="site-shell hero-grid">
             <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
@@ -35,7 +29,7 @@ export function LandingExperience() {
               <p className="hero-copy">Aproxime o celular ou escaneie o QR Code e leve o cliente direto para a avaliação do seu negócio no Google. Configure uma vez e deixe a Nooli cuidar do caminho.</p>
               <div className="hero-actions">
                 <a className="primary-button" href="#como-funciona">Ver como funciona <ArrowRight size={18} /></a>
-                <a className="secondary-button" href="#contato">Falar com a Nooli <MessageCircle size={18} /></a>
+                <a className="secondary-button" href="/support">Falar com a Nooli <MessageCircle size={18} /></a>
               </div>
               <div className="micro-proof">QR + NFC · sem aplicativo · Google direto</div>
             </motion.div>
@@ -103,7 +97,7 @@ export function LandingExperience() {
         </section>
       </main>
 
-      <footer className="footer"><div className="site-shell footer-row"><span>© {new Date().getFullYear()} Nooli</span><span>QR · NFC · Google Reviews</span></div></footer>
+      <SiteFooter />
       <a className="support-fab" href={support}><MessageCircle size={19} /><span>Suporte</span></a>
     </>
   );
