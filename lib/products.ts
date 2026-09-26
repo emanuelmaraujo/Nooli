@@ -6,17 +6,17 @@ export const productCatalog: Record<ProductType, {
   enabled: boolean;
 }> = {
   google_review: {
-    name: "Nooli Review",
+    name: "Torvya Review",
     activationPath: "google",
     enabled: true
   },
   direct_link: {
-    name: "Nooli Link",
+    name: "Torvya Link",
     activationPath: "link",
     enabled: false
   },
   nooli_page: {
-    name: "Nooli Page",
+    name: "Torvya Page",
     activationPath: "page",
     enabled: false
   }
