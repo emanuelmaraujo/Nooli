@@ -6,7 +6,7 @@ import { commerceIdentityComplete, legalIdentity } from "../../lib/legal";
 
 export const metadata = {
   title: "Central legal",
-  description: "Termos, privacidade, cookies, direitos do consumidor e acessibilidade da Nooli.",
+  description: "Termos, privacidade, cookies, direitos do consumidor e acessibilidade da Torvya.",
 };
 
 const items = [
@@ -27,7 +27,7 @@ export default function LegalHubPage() {
           <h1>Central legal e de confiança.</h1>
           <p className="legal-lead">
             Informações objetivas sobre o produto, seus direitos, privacidade e os canais
-            para falar com a Nooli.
+            para falar com a Torvya.
           </p>
 
           <section className="identity-card">
