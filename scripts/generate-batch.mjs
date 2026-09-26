@@ -15,7 +15,7 @@ const batch = String(args.batch ?? "pilot");
 const base = String(args.base ?? "").replace(/\/$/, "");
 const productType = String(args.product ?? "google_review");
 
-const allowedProducts = new Set(["google_review", "direct_link", "nooli_page"]);
+const allowedProducts = new Set(["google_review", "direct_link", "torvya_page"]);
 
 if (!Number.isInteger(count) || count < 1 || count > 100000) {
   throw new Error("--count deve ser um inteiro entre 1 e 100000");
