@@ -73,6 +73,12 @@ Páginas públicas principais:
 
 O gerador cria arquivos separados para a gráfica e para o estoque NFC.
 
+Depois que o lote e suas placas existirem no Supabase, registre os códigos físicos:
+
+    npm run register:endpoints -- --batch=lote-001
+
+O comando valida o lote, evita sobrescrever códigos conflitantes e cadastra QR e NFC em `plate_endpoints`.
+
 ## Banco
 
 Migrations:
