@@ -15,7 +15,7 @@ export default function SupportPage() {
       <main id="conteudo" className="auth-shell">
         <div className="auth-container">
           <section className="auth-card glass">
-            <div className="eyebrow">atendimento nooli</div>
+            <div className="eyebrow">atendimento torvya</div>
             <h1>Como podemos ajudar?</h1>
             <p>
               Ativação, alteração de destino, acesso à conta, compra, entrega,
