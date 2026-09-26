@@ -2110,3 +2110,96 @@ html[data-theme="light"] .ecosystem-chip.active {
     animation: none !important;
   }
 }
+
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon > svg {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 1;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.input-with-icon .input {
+  padding-left: 44px;
+}
+
+.journey-grid-four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.process-card > svg {
+  color: var(--lime);
+  margin-bottom: 18px;
+}
+
+.process-card h3 {
+  margin-top: 34px;
+}
+
+.activation-help-link {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.activation-help-link:hover {
+  color: var(--text);
+}
+
+.google-product-badge {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-soft);
+}
+
+.google-product-badge > div {
+  display: grid;
+  gap: 2px;
+}
+
+.google-product-badge strong {
+  font-size: .88rem;
+}
+
+.google-product-badge span:not(.google-star) {
+  color: var(--muted);
+  font-size: .72rem;
+}
+
+.google-star {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: #f5b301;
+  background: rgba(245,179,1,.08);
+}
+
+@media (max-width: 1100px) {
+  .journey-grid-four {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .journey-grid-four {
+    grid-template-columns: 1fr;
+  }
+}
