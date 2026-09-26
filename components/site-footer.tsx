@@ -21,7 +21,7 @@ export function SiteFooter() {
             <strong>Produto</strong>
             <Link href="/solucoes">Soluções</Link>
             <Link href="/#como-funciona">Como funciona</Link>
-            <Link href="/support">Suporte</Link>
+            <Link href="/support">Suporte</Link>\n            <Link href="/faq">Perguntas frequentes</Link>
           </div>
 
           <div className="footer-links">
