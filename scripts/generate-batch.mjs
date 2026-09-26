@@ -31,12 +31,21 @@ if (!allowedProducts.has(productType)) {
 
 const alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
 
-function randomCode(length) {
+function randomCode(length = 10) {
   let out = "";
   for (let i = 0; i < length; i++) {
     out += alphabet[crypto.randomInt(0, alphabet.length)];
   }
   return out;
+}
+
+function uniqueCode(used) {
+  let code;
+  do {
+    code = randomCode();
+  } while (used.has(code));
+  used.add(code);
+  return code;
 }
 
 function csvCell(value) {
@@ -56,32 +65,47 @@ await fs.mkdir(qrDir, { recursive: true });
 const used = new Set();
 const factoryRows = [[
   "sequence",
-  "public_code",
+  "plate_public_code",
   "product_type",
-  "redirect_url",
-  "nfc_url",
+  "qr_public_code",
+  "qr_url",
   "qr_file"
+]];
+const nfcRows = [[
+  "tag_sequence",
+  "nfc_public_code",
+  "nfc_url",
+  "status"
 ]];
 const inventoryRows = [[
   "sequence",
-  "public_code",
+  "plate_public_code",
   "product_type",
-  "redirect_url",
+  "qr_public_code",
+  "nfc_public_code",
+  "pairing_status",
   "status"
 ]];
 
+const nfcPool = [];
+
 for (let sequence = 1; sequence <= count; sequence++) {
-  let publicCode;
-  do {
-    publicCode = randomCode(10);
-  } while (used.has(publicCode));
-  used.add(publicCode);
-
-  const redirectUrl = `${base}/${publicCode}`;
+  const nfcCode = uniqueCode(used);
   const number = String(sequence).padStart(6, "0");
-  const file = `${number}_${publicCode}.svg`;
+  nfcPool.push({
+    number,
+    code: nfcCode,
+    url: `${base}/n/${nfcCode}`
+  });
+}
 
-  const svg = await QRCode.toString(redirectUrl, {
+for (let sequence = 1; sequence <= count; sequence++) {
+  const qrCode = uniqueCode(used);
+  const number = String(sequence).padStart(6, "0");
+  const qrUrl = `${base}/q/${qrCode}`;
+  const file = `${number}_${qrCode}.svg`;
+
+  const svg = await QRCode.toString(qrUrl, {
     type: "svg",
     errorCorrectionLevel: "M",
     margin: 2,
@@ -92,25 +116,39 @@ for (let sequence = 1; sequence <= count; sequence++) {
 
   factoryRows.push([
     number,
-    publicCode,
+    qrCode,
     productType,
-    redirectUrl,
-    redirectUrl,
+    qrCode,
+    qrUrl,
     `qr/${file}`
   ]);
 
+  const nfc = nfcPool[sequence - 1];
   inventoryRows.push([
     number,
-    publicCode,
+    qrCode,
     productType,
-    redirectUrl,
+    qrCode,
+    nfc.code,
+    "unpaired",
     "manufactured"
   ]);
 }
 
+for (const tag of nfcPool) {
+  nfcRows.push([
+    tag.number,
+    tag.code,
+    tag.url,
+    "available"
+  ]);
+}
+
 await fs.writeFile(path.join(root, "factory.csv"), toCsv(factoryRows), "utf8");
+await fs.writeFile(path.join(root, "nfc-inventory.csv"), toCsv(nfcRows), "utf8");
 await fs.writeFile(path.join(root, "inventory.csv"), toCsv(inventoryRows), "utf8");
 
-console.log(`Lote ${batch} criado: ${count} placas em ${root}`);
+console.log(`Lote ${batch} criado: ${count} placas + ${count} tags NFC em ${root}`);
 console.log(`Produto: ${productType}`);
-console.log("Envie factory.csv + pasta qr/ para a gráfica.");
+console.log("A gráfica recebe factory.csv + qr/. As tags usam nfc-inventory.csv.");
+console.log("A correspondência final QR↔NFC é feita por leitura física na Torvya, não por sequência.");
