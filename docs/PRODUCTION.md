@@ -64,16 +64,20 @@ Inventário de produção. A coluna de correspondência é apenas auxiliar; o v�
 2. publicar Worker;
 3. aplicar migrations;
 4. gerar lote piloto;
-5. importar/registrar endpoints QR e NFC;
-6. enviar QR para impressão;
-7. gravar tags NFC;
-8. montar uma placa;
-9. ler QR ou NFC;
-10. ler o outro;
-11. confirmar pareamento;
-12. testar ativação;
-13. testar os dois acessos após ativação;
-14. só então escalar o lote.
+5. cadastrar o lote e as placas no Supabase;
+6. registrar os endpoints com:
+
+       npm run register:endpoints -- --batch=lote-001
+
+7. enviar QR para impressão;
+8. gravar tags NFC;
+9. montar uma placa;
+10. ler QR ou NFC;
+11. ler o outro;
+12. confirmar pareamento;
+13. testar ativação;
+14. testar os dois acessos após ativação;
+15. só então escalar o lote.
 
 ## Segurança de produção
 
