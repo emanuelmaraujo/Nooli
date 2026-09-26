@@ -8,7 +8,7 @@ export default function PrivacyPage() {
     <LegalPage
       eyebrow="privacidade · LGPD"
       title="Aviso de privacidade."
-      description="Como a Nooli pretende tratar dados pessoais no site, no painel e durante a ativação das placas."
+      description="Como a Torvya pretende tratar dados pessoais no site, no painel e durante a ativação das placas."
     >
       <h2>Quem controla os dados</h2>
       <p>
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
       <h2>Retenção e segurança</h2>
       <p>
         Os dados serão mantidos pelo período necessário à finalidade informada,
-        obrigações legais, exercício regular de direitos e prevenção a fraude. A Nooli
+        obrigações legais, exercício regular de direitos e prevenção a fraude. A Torvya
         adota controles técnicos e organizacionais compatíveis com os riscos do serviço,
         sem prometer segurança absoluta.
       </p>
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
         Conforme aplicável, você pode solicitar confirmação de tratamento, acesso,
         correção, anonimização, bloqueio, eliminação, portabilidade, informações sobre
         compartilhamento e revogação de consentimento. A solicitação deve ser feita
-        primeiro à Nooli pelos canais publicados nesta página.
+        primeiro à Torvya pelos canais publicados nesta página.
       </p>
 
       <h2>Atualizações</h2>
